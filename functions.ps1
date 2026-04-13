@@ -1,9 +1,13 @@
 # ================================
-# Installer Hub - Shared Functions
+# Installer Hub – Shared Functions
 # ================================
 
+# Catch real bugs early (we handled all the StrictMode pitfalls)
 Set-StrictMode -Version Latest
 
+# ------------------------------------------------
+# Ensure script is running elevated
+# ------------------------------------------------
 function Assert-Administrator {
     $identity  = [Security.Principal.WindowsIdentity]::GetCurrent()
     $principal = New-Object Security.Principal.WindowsPrincipal($identity)
@@ -14,23 +18,37 @@ function Assert-Administrator {
     }
 }
 
+# ------------------------------------------------
+# Detect if an application is installed (registry)
+# StrictMode-safe, short-circuit version
+# ------------------------------------------------
 function Is-Installed {
-    param ([string]$DisplayName)
+    param (
+        [Parameter(Mandatory)]
+        [string]$DisplayName
+    )
 
-    foreach ($key in Get-ItemProperty `
-        HKLM:\Software\Microsoft\Windows\CurrentVersion\Uninstall\*, `
-        HKLM:\Software\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\* `
-        -ErrorAction SilentlyContinue) {
+    $uninstallKeys = @(
+        "HKLM:\Software\Microsoft\Windows\CurrentVersion\Uninstall\*",
+        "HKLM:\Software\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\*"
+    )
 
-        if ($key.PSObject.Properties['DisplayName'] -and
-            $key.DisplayName -like "*$DisplayName*") {
-            return $true
+    foreach ($key in $uninstallKeys) {
+        foreach ($entry in Get-ItemProperty $key -ErrorAction SilentlyContinue) {
+            if ($entry.PSObject.Properties['DisplayName'] -and
+                $entry.DisplayName -like "*$DisplayName*") {
+                return $true
+            }
         }
     }
 
     return $false
 }
 
+# ------------------------------------------------
+# Download and install EXE installers
+# StrictMode-safe
+# ------------------------------------------------
 function Install-Exe {
     param (
         [Parameter(Mandatory)]
@@ -42,12 +60,12 @@ function Install-Exe {
         [string]$Args = ""
     )
 
-    if (Is-Installed $Name) {
+    if (Is-Installed -DisplayName $Name) {
         Write-Host "$Name is already installed — skipping." -ForegroundColor Yellow
         return
     }
 
-    # ✅ Explicit declaration for StrictMode
+    # Explicit initialization required for StrictMode
     $file = $null
 
     $safeName = ($Name -replace '\s+', '_')
@@ -60,6 +78,9 @@ function Install-Exe {
     Start-Process -FilePath $file -ArgumentList $Args -Wait -NoNewWindow
 }
 
+# ------------------------------------------------
+# Install using winget (safe argument handling)
+# ------------------------------------------------
 function Install-Winget {
     param (
         [Parameter(Mandatory)]
@@ -68,6 +89,7 @@ function Install-Winget {
 
     if (Get-Command winget -ErrorAction SilentlyContinue) {
         Write-Host "Installing $Id via winget..." -ForegroundColor Cyan
+
         Start-Process winget `
             -ArgumentList "install --id $Id --silent --accept-package-agreements --accept-source-agreements" `
             -Wait `
