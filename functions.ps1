@@ -48,7 +48,7 @@ function Install-Exe {
     )
 
     if (Is-Installed -DisplayName $Name) {
-        Write-Host ("$Name is already installed — skipping." -ForegroundColor Yellow)
+        Write-Host ("$Name is already installed.. skipping." -ForegroundColor Yellow)
         return 
         }
 
