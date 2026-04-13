@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -33,7 +34,18 @@
 
     p.subtitle {
       color: var(--muted);
-      margin-bottom: 32px;
+      margin-bottom: 24px;
+    }
+
+    input.search {
+      width: 100%;
+      padding: 12px 14px;
+      margin-bottom: 24px;
+      border-radius: 10px;
+      border: none;
+      background: var(--card);
+      color: var(--text);
+      font-size: 1rem;
     }
 
     .grid {
@@ -78,19 +90,43 @@
       margin-bottom: 16px;
     }
 
-    .download {
-      display: inline-block;
+    .actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .download, .copy {
       padding: 10px 14px;
-      background: var(--accent);
-      color: white;
-      text-decoration: none;
       border-radius: 8px;
       font-weight: 600;
-      font-size: 0.9rem;
+      font-size: 0.85rem;
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    .download {
+      background: var(--accent);
+      color: white;
     }
 
     .download:hover {
       background: #2563eb;
+    }
+
+    .copy {
+      background: #1f2937;
+      color: var(--text);
+    }
+
+    pre {
+      background: #020617;
+      padding: 12px;
+      border-radius: 10px;
+      font-size: 0.85rem;
+      overflow-x: auto;
+      margin-bottom: 12px;
     }
 
     footer {
@@ -103,30 +139,58 @@
 
 <body>
 
-  <h1>Installer Hub</h1>
-  <p class="subtitle">Daily setup tools – stable, trusted, ready to deploy</p>
+<h1>Installer Hub</h1>
+<p class="subtitle">Daily setup tools – stable, trusted, ready to deploy</p>
 
-  <div class="grid">
+<!-- POWERSHELL BOOTSTRAP -->
+<div class="card" style="margin-bottom:24px;">
+  <h2>Full Workstation Setup (PowerShell)</h2>
+  <p>Run this on a new or freshly imaged computer</p>
+  <pre id="ps-bootstrap">
+iwr https://yourname.github.io/installer-hub/scripts/bootstrap.ps1 -useb | iex
+  </pre>
+  <button class="copy"
+    onclick="copyText('ps-bootstrap')">Copy Command</button>
+</div>
 
-    <!-- Chrome -->
-    <div class="card">
-      <div class="card-header">
-        <img src="https://www.google.com/chrome/static/images/chrome-logo-m100.svg" alt="Chrome">
-        <h2>Google Chrome</h2>
-      </div>
-      <p>Standard Enterprise Browser Install</p>
-      <a class="download" href="https://dl.google.com/tag/s/appguid%3D%7B8A69D345-D564-463C-AFF1-A69D9E530F96%7D%26iid%3D%7BA3FDF9A5-1354-1022-1833-7C5B13DD178D%7D%26lang%3Den%26browser%3D4%26usagestats%3D1%26appname%3DGoogle%2520Chrome%26needsadmin%3Dprefers%26ap%3D-arch_x64-statsdef_1%26installdataindex%3Dempty/update2/installers/ChromeSetup.exe">Download</a>
+<input class="search" id="search" placeholder="Search installers…" onkeyup="filterCards()">
+
+<div class="grid" id="grid">
+
+  <!-- Chrome -->
+  <div class="card">
+    <div class="card-header">
+      <img src="https://www.google.com/chrome/static/images/chrome-logo-m100.svg">
+      <h2>Google Chrome</h2>
     </div>
+    <p>Standard Enterprise Browser Install</p>
+    <div class="actions">
+      <a class="download" href="https://dl.google.com/update2/installers/ChromeSetup.exe">Download</a>
+      <button class="copy"
+        onclick="copyRawUrl(this)"
+        data-url="https://dl.google.com/update2/installers/ChromeSetup.exe">
+        Copy URL
+      </button>
+    </div>
+  </div>
 
-    <!-- IS1 Code -->
-    <div class="card">
-      <div class="card-header">
-        <img src="https://play-lh.googleusercontent.com/o0fHrq52G0OjiB_1PRVytx3DlunmznPXDc-uv2HhCngVRMDM0zhshHYFAEdxoN6k-PM" alt="InstaShare 1">
-        <h2>InstaShare</h2>
-      </div>
-      <p>1st Generation Casting Application for BENQ Interactive Panels</p>
+  <!-- InstaShare -->
+  <div class="card">
+    <div class="card-header">
+      <img src="https://play-lh.googleusercontent.com/o0fHrq52G0OjiB_1PRVytx3DlunmznPXDc-uv2HhCngVRMDM0zhshHYFAEdxoN6k-PM">
+      <h2>InstaShare</h2>
+    </div>
+    <p>BENQ Gen‑1 Casting Application</p>
+    <div class="actions">
       <a class="download" href="https://esupportdownload.benq.com/esupport/PUBLIC%20DISPLAY%20PRODUCT/Software/InstaShare/InstaShare_for%20Windows%20(.MSI)_v2.0.0.26_Windows_230330163404.zip">Download</a>
+      <button class="copy"
+        onclick="copyRawUrl(this)"
+        data-url="https://esupportdownload.benq.com/esupport/PUBLIC%20DISPLAY%20PRODUCT/Software/InstaShare/InstaShare_for%20Windows%20(.MSI)_v2.0.0.26_Windows_230330163404.zip">
+        Copy URL
+      </button>
     </div>
+  </div>
+
 
     <!-- IS2 Code -->
     <div class="card">
@@ -163,6 +227,26 @@
   <footer>
     Internal installer repository · Hosted on GitHub Pages
   </footer>
+
+  
+<script>
+function copyText(id) {
+  navigator.clipboard.writeText(document.getElementById(id).innerText.trim());
+}
+
+function copyRawUrl(btn) {
+  navigator.clipboard.writeText(btn.dataset.url);
+}
+
+function filterCards() {
+  const q = document.getElementById("search").value.toLowerCase();
+  document.querySelectorAll(".card").forEach(card => {
+    card.style.display = card.innerText.toLowerCase().includes(q)
+      ? "block" : "none";
+  });
+}
+</script>
+
 
 </body>
 </html>
