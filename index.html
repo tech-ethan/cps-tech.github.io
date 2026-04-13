@@ -167,18 +167,6 @@ Select a profile above
   <button class="copy" onclick="copyCommand()">Copy PowerShell Command</button>
 </div>
 
-  
-<!-- POWERSHELL BOOTSTRAP -->
-<div class="card" style="margin-bottom:24px;">
-  <h2>Full Workstation Setup (PowerShell)</h2>
-  <p>Run this on a new or freshly imaged computer</p>
-  <pre id="ps-bootstrap">
-iwr https://tech-ethan.github.io/cps-tech.github.io/bootstrap.ps1 -useb | iex
-  </pre>
-  <button class="copy"
-    onclick="copyText('ps-bootstrap')">Copy Command</button>
-</div>
-
 <input class="search" id="search" placeholder="Search installers…" onkeyup="filterCards()">
 
 <div class="grid" id="grid">
