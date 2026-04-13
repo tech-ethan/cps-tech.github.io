@@ -2,9 +2,6 @@
 # Installer Hub – Shared Functions
 # ================================
 
-# ------------------------------------------------
-# Ensure script is running elevated
-# ------------------------------------------------
 function Assert-Administrator {
     $identity  = [Security.Principal.WindowsIdentity]::GetCurrent()
     $principal = New-Object Security.Principal.WindowsPrincipal($identity)
@@ -15,10 +12,6 @@ function Assert-Administrator {
     }
 }
 
-# ------------------------------------------------
-# Detect if an application is installed (registry)
-# Robust, real‑world safe
-# ------------------------------------------------
 function Is-Installed {
     param (
         [Parameter(Mandatory)]
@@ -41,9 +34,6 @@ function Is-Installed {
     return $false
 }
 
-# ------------------------------------------------
-# Download and install EXE installers
-# ------------------------------------------------
 function Install-Exe {
     param (
         [Parameter(Mandatory)]
@@ -70,9 +60,6 @@ function Install-Exe {
     Start-Process -FilePath $file -ArgumentList $Args -Wait -NoNewWindow
 }
 
-# ------------------------------------------------
-# Install via winget (safe argument handling)
-# ------------------------------------------------
 function Install-Winget {
     param (
         [Parameter(Mandatory)]
@@ -81,7 +68,6 @@ function Install-Winget {
 
     if (Get-Command winget -ErrorAction SilentlyContinue) {
         Write-Host "Installing $Id via winget..." -ForegroundColor Cyan
-
         Start-Process winget `
             -ArgumentList "install --id $Id --silent --accept-package-agreements --accept-source-agreements" `
             -Wait `
