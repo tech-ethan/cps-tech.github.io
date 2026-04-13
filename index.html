@@ -142,6 +142,32 @@
 <h1>Installer Hub</h1>
 <p class="subtitle">Daily setup tools – stable, trusted, ready to deploy</p>
 
+<div class="card" style="margin-bottom:24px;">
+  <h2>Quick Setup Profiles</h2>
+  <p>Select a setup type and copy the PowerShell command</p>
+
+  <div class="actions">
+    <button class="download" onclick="setProfile('standard')">
+      Standard Setup
+    </button>
+
+    <button class="download" onclick="setProfile('admin')">
+      Admin Setup
+    </button>
+
+    <button class="download" onclick="setProfile('classroom')">
+      Classroom / Panel
+    </button>
+  </div>
+
+  <pre id="ps-command" style="margin-top:16px;">
+Select a profile above
+  </pre>
+
+  <button class="copy" onclick="copyCommand()">Copy PowerShell Command</button>
+</div>
+
+  
 <!-- POWERSHELL BOOTSTRAP -->
 <div class="card" style="margin-bottom:24px;">
   <h2>Full Workstation Setup (PowerShell)</h2>
@@ -277,6 +303,17 @@ iwr https://tech-ethan.github.io/cps-tech.github.io/bootstrap.ps1 -useb | iex
 
   
 <script>
+function setProfile(profile) {
+  const cmd = `$env:INSTALLER_PROFILE="${profile}"; `
+    + `iwr https://tech-ethan.github.io/cps-tech.github.io/bootstrap.ps1 -useb | iex`;
+
+  document.getElementById("ps-command").innerText = cmd;
+}
+function copyCommand() {
+  const text = document.getElementById("ps-command").innerText;
+  navigator.clipboard.writeText(text);
+}
+
 function copyText(id) {
   navigator.clipboard.writeText(document.getElementById(id).innerText.trim());
 }
