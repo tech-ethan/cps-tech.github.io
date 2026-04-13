@@ -5,7 +5,7 @@
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
 Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass -Force
 
-$BaseUrl = "https://tech-ethan.github.io/cps-tech.github.io/scripts"
+$BaseUrl = "https://tech-ethan.github.io/cps-tech.github.io"
 $TempDir = "$env:TEMP\InstallerHub"
 $MainScript = "$TempDir\setup-standard.ps1"
 
