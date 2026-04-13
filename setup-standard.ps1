@@ -16,10 +16,10 @@ Write-Host "Starting standard workstation setup..." -ForegroundColor Cyan
 # Application Installs
 # ================================
 
-Install-Exe `
-  -Name "Google Chrome" `
-  -Url  "https://dl.google.com/update2/installers/ChromeSetup.exe" `
-  -Args "/silent /install"
+#Install-Exe `
+  #-Name "Google Chrome" `
+  #-Url  "https://dl.google.com/update2/installers/ChromeSetup.exe" `
+  #-Args "/silent /install"
 
 Install-Exe `
   -Name "InstaShare" `
@@ -38,8 +38,8 @@ Install-Exe `
 # Winget Fallbacks (Optional)
 # ================================
 
-Install-Winget -Id "Microsoft.VisualStudioCode"
-Install-Winget -Id "7zip.7zip"
+#Install-Winget -Id "Microsoft.VisualStudioCode"
+#Install-Winget -Id "7zip.7zip"
 
 Write-Host "Setup complete!" -ForegroundColor Green
 Stop-Transcript
