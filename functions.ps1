@@ -2,8 +2,6 @@
 # Installer Hub – Shared Functions
 # ================================
 
-Set-StrictMode -Version Latest
-
 # ------------------------------------------------
 # Ensure script is running elevated
 # ------------------------------------------------
@@ -19,7 +17,7 @@ function Assert-Administrator {
 
 # ------------------------------------------------
 # Detect if an application is installed (registry)
-# StrictMode-safe short-circuit logic
+# Robust, real‑world safe
 # ------------------------------------------------
 function Is-Installed {
     param (
@@ -33,9 +31,8 @@ function Is-Installed {
     )
 
     foreach ($path in $paths) {
-        foreach ($entry in Get-ItemProperty $path -ErrorAction SilentlyContinue) {
-            if ($entry.PSObject.Properties['DisplayName'] -and
-                $entry.DisplayName -like "*$DisplayName*") {
+        Get-ItemProperty $path -ErrorAction SilentlyContinue | ForEach-Object {
+            if ($_.DisplayName -and $_.DisplayName -like "*$DisplayName*") {
                 return $true
             }
         }
@@ -46,7 +43,6 @@ function Is-Installed {
 
 # ------------------------------------------------
 # Download and install EXE installers
-# STRICTMODE-SAFE VARIABLE HANDLING
 # ------------------------------------------------
 function Install-Exe {
     param (
@@ -64,11 +60,8 @@ function Install-Exe {
         return
     }
 
-    # ✅ Explicit declaration required under StrictMode
-    Set-Variable -Name file -Value $null -Scope Local -Force
-
     $safeName = ($Name -replace '\s+', '_')
-    $file = Join-Path $env:TEMP "$safeName.exe"
+    $file     = Join-Path $env:TEMP "$safeName.exe"
 
     Write-Host "Downloading $Name..." -ForegroundColor Cyan
     Invoke-WebRequest -Uri $Url -OutFile $file -UseBasicParsing
@@ -98,4 +91,3 @@ function Install-Winget {
         Write-Host "Winget not available — skipping $Id" -ForegroundColor Yellow
     }
 }
-``
