@@ -49,8 +49,7 @@ function Install-Exe {
 
     if (Is-Installed -DisplayName $Name) {
         Write-Host ("$Name is already installed — skipping." -ForegroundColor Yellow)
-        return
-    }
+        return }
 
     $safeName = ($Name -replace '\s+', '_')
     $file     = Join-Path $env:TEMP "$safeName.exe"
