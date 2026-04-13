@@ -74,8 +74,8 @@ function Install-Winget {
             -ArgumentList "install --id $Id --silent --accept-package-agreements --accept-source-agreements" `
             -Wait `
             -NoNewWindow
-    }
+        }
     else {
-        Write-Host "Winget not available — skipping $Id" -ForegroundColor Yellow
+        Write-Host "Winget not available.. skipping $Id" -ForegroundColor Yellow
     }
 }
