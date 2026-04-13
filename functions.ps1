@@ -60,21 +60,6 @@ function Install-Exe {
     Start-Process -FilePath $file -ArgumentList $Args -Wait -NoNewWindow
 }
 
-
-    if (Is-Installed $Name) {
-    Write-Host "$Name is already installed — skipping." -ForegroundColor Yellow
-    return
-}
-
-    $file = Join-Path $env:TEMP ($Name -replace '\s','_') + ".exe"
-
-    Write-Host "Downloading $Name..." -ForegroundColor Cyan
-    Invoke-WebRequest -Uri $Url -OutFile $file -UseBasicParsing
-
-    Write-Host "Installing $Name..." -ForegroundColor Green
-    Start-Process -FilePath $file -ArgumentList $Args -Wait -NoNewWindow
-}
-
 function Install-Winget {
     param (
         [Parameter(Mandatory)]
