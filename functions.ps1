@@ -42,10 +42,10 @@ function Install-Exe {
         [string]$Args = ""
     )
 
-    if (Is-Installed -DisplayName $Name) {
-        Write-Host "$Name is already installed — skipping." -ForegroundColor Yellow
-        return
-    }
+    if (Is-Installed $Name) {
+    Write-Host "$Name is already installed — skipping." -ForegroundColor Yellow
+    return
+}
 
     $file = Join-Path $env:TEMP ($Name -replace '\s','_') + ".exe"
 
