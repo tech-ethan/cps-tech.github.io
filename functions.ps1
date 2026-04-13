@@ -2,7 +2,6 @@
 # Installer Hub – Shared Functions
 # ================================
 
-# Catch real bugs early (we handled all the StrictMode pitfalls)
 Set-StrictMode -Version Latest
 
 # ------------------------------------------------
@@ -20,7 +19,7 @@ function Assert-Administrator {
 
 # ------------------------------------------------
 # Detect if an application is installed (registry)
-# StrictMode-safe, short-circuit version
+# StrictMode-safe short-circuit logic
 # ------------------------------------------------
 function Is-Installed {
     param (
@@ -28,13 +27,13 @@ function Is-Installed {
         [string]$DisplayName
     )
 
-    $uninstallKeys = @(
+    $paths = @(
         "HKLM:\Software\Microsoft\Windows\CurrentVersion\Uninstall\*",
         "HKLM:\Software\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\*"
     )
 
-    foreach ($key in $uninstallKeys) {
-        foreach ($entry in Get-ItemProperty $key -ErrorAction SilentlyContinue) {
+    foreach ($path in $paths) {
+        foreach ($entry in Get-ItemProperty $path -ErrorAction SilentlyContinue) {
             if ($entry.PSObject.Properties['DisplayName'] -and
                 $entry.DisplayName -like "*$DisplayName*") {
                 return $true
@@ -47,7 +46,7 @@ function Is-Installed {
 
 # ------------------------------------------------
 # Download and install EXE installers
-# StrictMode-safe
+# STRICTMODE-SAFE VARIABLE HANDLING
 # ------------------------------------------------
 function Install-Exe {
     param (
@@ -65,8 +64,8 @@ function Install-Exe {
         return
     }
 
-    # Explicit initialization required for StrictMode
-    $file = $null
+    # ✅ Explicit declaration required under StrictMode
+    Set-Variable -Name file -Value $null -Scope Local -Force
 
     $safeName = ($Name -replace '\s+', '_')
     $file = Join-Path $env:TEMP "$safeName.exe"
@@ -79,7 +78,7 @@ function Install-Exe {
 }
 
 # ------------------------------------------------
-# Install using winget (safe argument handling)
+# Install via winget (safe argument handling)
 # ------------------------------------------------
 function Install-Winget {
     param (
@@ -99,3 +98,4 @@ function Install-Winget {
         Write-Host "Winget not available — skipping $Id" -ForegroundColor Yellow
     }
 }
+``
