@@ -16,10 +16,10 @@ Write-Host "Starting standard workstation setup..." -ForegroundColor Cyan
 # Application Installs
 # ================================
 
-#Install-Exe `
-  #-Name "Google Chrome" `
-  #-Url  "https://dl.google.com/update2/installers/ChromeSetup.exe" `
-  #-Args "/silent /install"
+Install-Exe `
+  -Name "Google Chrome" `
+  -Url  "https://dl.google.com/update2/installers/ChromeSetup.exe" `
+  -Args "/silent /install"
 
 Install-Exe `
   -Name "InstaShare" `
@@ -30,8 +30,8 @@ Install-Exe `
   -Url "https://esupportdownload.benq.com/esupport/INTERACTIVE%20FLAT%20PLAT%20FOR%20EDUCATION/Software/InstaShare%202/InstaShare%202_for%20Windows%20(.MSI)_1.9.5.0_Windows_260205155943.zip"
 
 Install-Exe `
-  -Name "Wisenet WAVE" `
-  -Url "https://updates.wavevms.com/hanwha/41290/windows/wave-client-6.0.5.41290-windows_x64.exe" `
+  -Name "Google Drive" `
+  -Url "https://dl.google.com/drive-file-stream/GoogleDriveSetup.exe" `
   -Args "/quiet /norestart"
 
 # ================================
