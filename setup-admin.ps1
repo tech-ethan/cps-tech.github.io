@@ -12,10 +12,14 @@ Install-Exe `
   -Args "/silent /install"
 
 # --- Admin / IT Tools ---
-Install-Winget -Id "Microsoft.VisualStudioCode"
+Install-Winget -Id "Rufus.Rufus"
 Install-Winget -Id "Sysinternals.SysinternalsSuite"
 Install-Winget -Id "WiresharkFoundation.Wireshark"
 Install-Winget -Id "PuTTY.PuTTY"
+Install-Winget -Id "AntibodySoftware.WizTree"
+Install-Winget -Id "PDQ.PDQDeploy"
+Install-Winget -Id "PDQ.PDQInventory"
+
 
 Write-Host "Admin setup complete." -ForegroundColor Green
 
