@@ -90,6 +90,17 @@
       margin-bottom: 16px;
     }
 
+    .app-list {
+      margin-top: 8px;
+      padding-left: 18px;
+      color: var(--text);
+      font-size: 0.9rem;
+    }
+    
+    .app-list li {
+      margin-bottom: 6px;
+    }
+
     .actions {
       display: flex;
       gap: 10px;
@@ -152,8 +163,6 @@
 
 <h1>Installer Hub</h1>
 <p class="subtitle">Daily setup tools – stable, trusted, ready to deploy</p>
-
-<div class="card" style="margin-bottom:24px;">
   
 <div class="card" style="margin-bottom:24px;">
   <h2>Quick Setup Profiles</h2>
@@ -176,6 +185,14 @@
     <p id="profile-desc" class="subtitle"></p>
     <div id="profile-badges"></div>
   </div>
+
+  <div style="margin-top:16px;">
+  <h4>What gets installed</h4>
+  <ul id="profile-apps" class="app-list">
+    <li>Select a profile to view installed applications</li>
+  </ul>
+</div>
+``
 
   <pre id="ps-command" style="margin-top:16px;">
 Select a profile above
@@ -344,13 +361,24 @@ const profiles = {
     name: "Standard Setup",
     description: "Application Stack for Teachers",
     badges: ["User", "Daily Use", "Low Risk"],
-    color: "#FF5F15"
+    color: "#FF5F15",
+    apps: [
+      "Google Chrome",
+      "Google Drive",
+      "InstaShare",
+      "InstaShare 2" 
+    ]
   },
   admin: {
     name: "Administrator Setup",
     description: "Application Stack for Admins.",
     badges: ["Tech", "Admin", "Advanced"],
-    color: "#ef4444"
+    color: "#ef4444",
+    apps: [
+      "Rufus",
+      "WizTree",
+      "PuTTY"
+    ]
   },
   classroom: {
     name: "Classroom Setup",
@@ -370,6 +398,7 @@ function setProfile(profile) {
   document.getElementById("profile-title").innerText = p.name;
   document.getElementById("profile-desc").innerText = p.description;
 
+  // Badges
   const badgeContainer = document.getElementById("profile-badges");
   badgeContainer.innerHTML = "";
   p.badges.forEach(b => {
@@ -379,6 +408,17 @@ function setProfile(profile) {
     span.innerText = b;
     badgeContainer.appendChild(span);
   });
+
+  
+// App list
+  const appList = document.getElementById("profile-apps");
+  appList.innerHTML = "";
+  p.apps.forEach(app => {
+    const li = document.createElement("li");
+    li.innerText = app;
+    appList.appendChild(li);
+  });
+
 
   const cmd =
     `$env:INSTALLER_PROFILE="${profile}"; `
