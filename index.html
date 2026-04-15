@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -90,17 +89,6 @@
       margin-bottom: 16px;
     }
 
-    .app-list {
-      margin-top: 8px;
-      padding-left: 18px;
-      color: var(--text);
-      font-size: 0.9rem;
-    }
-    
-    .app-list li {
-      margin-bottom: 6px;
-    }
-
     .actions {
       display: flex;
       gap: 10px;
@@ -117,17 +105,6 @@
       text-decoration: none;
     }
 
-    .badge {
-      display: inline-block;
-      padding: 6px 10px;
-      margin-right: 6px;
-      margin-top: 6px;
-      border-radius: 999px;
-      font-size: 0.75rem;
-      font-weight: 600;
-      color: white;
-    }
-
     .download {
       background: var(--accent);
       color: white;
@@ -142,12 +119,34 @@
       color: var(--text);
     }
 
+    .badge {
+      display: inline-block;
+      padding: 6px 10px;
+      margin-right: 6px;
+      margin-top: 6px;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: white;
+    }
+
+    .app-list {
+      margin-top: 8px;
+      padding-left: 18px;
+      font-size: 0.9rem;
+    }
+
+    .app-list li {
+      margin-bottom: 6px;
+    }
+
     pre {
       background: #020617;
       padding: 12px;
       border-radius: 10px;
       font-size: 0.85rem;
       overflow-x: auto;
+      margin-top: 16px;
       margin-bottom: 12px;
     }
 
@@ -162,23 +161,14 @@
 <body>
 
 <h1>Installer Hub</h1>
-<p class="subtitle">⭐⭐⭐</p>
-  
+<p class="subtitle">Centralized, profile‑driven workstation deployments</p>
+
+<!-- PROFILE CARD -->
 <div class="card" style="margin-bottom:24px;">
   <h2>Quick Setup Profiles</h2>
   <p>Select a setup type for this machine</p>
 
-  <div class="actions">
-    <button class="download" onclick="setProfile('standard')">
-      Standard
-    </button>
-    <button class="download" onclick="setProfile('admin')">
-      Admin
-    </button>
-    <button class="download" onclick="setProfile('classroom')">
-      Classroom
-    </button>
-  </div>
+  <div class="actions" id="profile-buttons"></div>
 
   <div style="margin-top:16px;">
     <h3 id="profile-title">Select a profile</h3>
@@ -187,172 +177,25 @@
   </div>
 
   <div style="margin-top:16px;">
-  <h4>What gets installed</h4>
-  <ul id="profile-apps" class="app-list">
-    <li>Select a profile to view installed applications</li>
-  </ul>
-</div>
+    <h4>What gets installed</h4>
+    <ul id="profile-apps" class="app-list">
+      <li>Select a profile to view installed applications</li>
+    </ul>
+  </div>
 
-  <pre id="ps-command" style="margin-top:16px;">
-Select a profile above
-  </pre>
-
+  <pre id="ps-command">Select a profile above</pre>
   <button class="copy" onclick="copyCommand()">Copy PowerShell Command</button>
 </div>
 
+<!-- APP LIBRARY -->
 <h2>Application Library</h2>
 <input class="search" id="search" placeholder="Search installers…" onkeyup="filterCards()">
-<div class="grid" id="grid">
+<div class="grid" id="app-grid"></div>
 
-  <!-- Chrome -->
-  <div class="card">
-    <div class="card-header">
-      <img src="https://www.google.com/chrome/static/images/chrome-logo-m100.svg">
-      <h2>Google Chrome</h2>
-    </div>
-    <p>Standard Enterprise Browser Install</p>
-    <div class="actions">
-      <a class="download" href="https://dl.google.com/update2/installers/ChromeSetup.exe">Download</a>
-      <button class="copy"
-        onclick="copyRawUrl(this)"
-        data-url="https://dl.google.com/update2/installers/ChromeSetup.exe">
-        Copy URL
-      </button>
-    </div>
-  </div>
+<footer>
+  Internal installer repository · Hosted on GitHub Pages
+</footer>
 
-    <!-- Google Drive for Desktop -->
-    <div class="card">
-    <div class="card-header">
-      <img src="https://static.vecteezy.com/system/resources/previews/017/395/378/non_2x/google-drive-icons-free-png.png">
-      <h2>Google Drive</h2>
-    </div>
-    <p>Google Drive for Desktop</p>
-    <div class="actions">
-      <a class="download" href="https://dl.google.com/drive-file-stream/GoogleDriveSetup.exe">Download</a>
-      <button class="copy"
-        onclick="copyRawUrl(this)"
-        data-url="https://dl.google.com/drive-file-stream/GoogleDriveSetup.exe">
-        Copy URL
-      </button>
-    </div>
-  </div>
-
-  <!-- InstaShare -->
-  <div class="card">
-    <div class="card-header">
-      <img src="https://play-lh.googleusercontent.com/o0fHrq52G0OjiB_1PRVytx3DlunmznPXDc-uv2HhCngVRMDM0zhshHYFAEdxoN6k-PM">
-      <h2>InstaShare</h2>
-    </div>
-    <p>BENQ Gen‑1 Casting Application</p>
-    <div class="actions">
-      <a class="download" href="https://esupportdownload.benq.com/esupport/PUBLIC%20DISPLAY%20PRODUCT/Software/InstaShare/InstaShare_for%20Windows%20(.MSI)_v2.0.0.26_Windows_230330163404.zip">Download</a>
-      <button class="copy"
-        onclick="copyRawUrl(this)"
-        data-url="https://esupportdownload.benq.com/esupport/PUBLIC%20DISPLAY%20PRODUCT/Software/InstaShare/InstaShare_for%20Windows%20(.MSI)_v2.0.0.26_Windows_230330163404.zip">
-        Copy URL
-      </button>
-    </div>
-  </div>
-
-
-    <!-- IS2 Code -->
-    <div class="card">
-      <div class="card-header">
-        <img src="https://play-lh.googleusercontent.com/L1BQxmKEv2Lgzg9JPReZvJa4H2RDN6FFhtSOhnacihR13UoFqk81pWiGG1Rv9DUsug=w240-h480-rw" alt="InstaShare 2">
-        <h2>InstaShare 2</h2>
-      </div>
-      <p>Latest Generation Casting Application for BENQ Interactive Panels</p>
-      <a class="download" href="https://esupportdownload.benq.com/esupport/INTERACTIVE%20FLAT%20PLAT%20FOR%20EDUCATION/Software/InstaShare%202/InstaShare%202_for%20Windows%20(.MSI)_1.9.5.0_Windows_260205155943.zip">Download</a>
-      <button class="copy"
-        onclick="copyRawUrl(this)"
-        data-url="https://esupportdownload.benq.com/esupport/INTERACTIVE%20FLAT%20PLAT%20FOR%20EDUCATION/Software/InstaShare%202/InstaShare%202_for%20Windows%20(.MSI)_1.9.5.0_Windows_260205155943.zip">
-        Copy URL
-      </button>
-    </div>
-
-    <!-- WiseNet -->
-    <div class="card">
-      <div class="card-header">
-        <img src="https://play-lh.googleusercontent.com/-1ZN3r8_csJazOp1DPUK0KCTf_x72U0yTZq23MgeViBMWfGcjqfm7LbnhyEoIF_xEw" alt="Wisenet Wave">
-        <h2>Wisenet WAVE</h2>
-      </div>
-      <p>Security Camera Access Software</p>
-      <a class="download" href="https://updates.wavevms.com/hanwha/41290/windows/wave-client-6.0.5.41290-windows_x64.exe">Download</a>
-       <button class="copy"
-        onclick="copyRawUrl(this)"
-        data-url="https://updates.wavevms.com/hanwha/41290/windows/wave-client-6.0.5.41290-windows_x64.exe">
-        Copy URL
-      </button>
-    </div>
-
-   <!-- UniFlow -->
-    <div class="card">
-      <div class="card-header">
-        <img src="https://play-lh.googleusercontent.com/aN9UQ16MfY6mYITs82_-UJd419sy6bPlgnFO8f9py1mGcdNZPrNFHzthWbz3foMPht0=w240-h480-rw" alt="UniFLOW SmartClient">
-        <h2>UniFLOW SmartClient</h2>
-      </div>
-      <p>UniFLOW Printing Software</p>
-      <a class="download" href="https://drive.usercontent.google.com/download?id=1Mu-HkbYJqz5Ut2dVx0R83MS8UfBtXGpw&export=download&authuser=0&confirm=t&uuid=a909198c-ea6b-44b1-876b-44d501dbb59f&at=ALBwUglIXED-_LTPYhETJU-6EKWs:1776094388481">Download</a>
-       <button class="copy"
-        onclick="copyRawUrl(this)"
-        data-url="https://drive.usercontent.google.com/download?id=1Mu-HkbYJqz5Ut2dVx0R83MS8UfBtXGpw&export=download&authuser=0&confirm=t&uuid=a909198c-ea6b-44b1-876b-44d501dbb59f&at=ALBwUglIXED-_LTPYhETJU-6EKWs:1776094388481">
-        Copy URL
-      </button>
-    </div>
-
-     <!-- Fusion -->
-    <div class="card">
-      <div class="card-header">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/db/Fusion360_Logo.svg/1280px-Fusion360_Logo.svg.png" alt="Fusion360">
-        <h2>Autodesk Fusion</h2>
-      </div>
-      <p>Autodesk Fusion includes all design and 3D modeling tools</p>
-      <a class="download" href="https://dl.appstreaming.autodesk.com/production/installers/Fusion%20Client%20Downloader.exe">Download</a>
-       <button class="copy"
-        onclick="copyRawUrl(this)"
-        data-url="https://dl.appstreaming.autodesk.com/production/installers/Fusion%20Client%20Downloader.exe">
-        Copy URL
-      </button>
-    </div>
-
-       <!-- Rufus -->
-    <div class="card">
-      <div class="card-header">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/d/de/Rufus-logo.png" alt="Rufus">
-        <h2>Rufus</h2>
-      </div>
-      <p>Rufus is a utility that helps format and create bootable USB flash drives, such as USB keys/pendrives, memory sticks, etc.</p>
-      <a class="download" href="https://release-assets.githubusercontent.com/github-production-release-asset/2810292/bfffd5c5-c936-43ee-a087-5455c384f23f?sp=r&sv=2018-11-09&sr=b&spr=https&se=2026-04-15T13%3A59%3A56Z&rscd=attachment%3B+filename%3Drufus-4.13.exe&rsct=application%2Foctet-stream&skoid=96c2d410-5711-43a1-aedd-ab1947aa7ab0&sktid=398a6654-997b-47e9-b12b-9515b896b4de&skt=2026-04-15T12%3A59%3A45Z&ske=2026-04-15T13%3A59%3A56Z&sks=b&skv=2018-11-09&sig=aog%2FelNnjfR3z607xl7yOzZAySHK7BQaWHj8nmWh3ug%3D&jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmVsZWFzZS1hc3NldHMuZ2l0aHVidXNlcmNvbnRlbnQuY29tIiwia2V5Ijoia2V5MSIsImV4cCI6MTc3NjI1ODM0NSwibmJmIjoxNzc2MjU4MDQ1LCJwYXRoIjoicmVsZWFzZWFzc2V0cHJvZHVjdGlvbi5ibG9iLmNvcmUud2luZG93cy5uZXQifQ.uojcooC-rrMviiMbMk4-X7vPwBEdp2m7m5sGQ83WdAw&response-content-disposition=attachment%3B%20filename%3Drufus-4.13.exe&response-content-type=application%2Foctet-stream">Download</a>
-       <button class="copy"
-        onclick="copyRawUrl(this)"
-        data-url="https://release-assets.githubusercontent.com/github-production-release-asset/2810292/bfffd5c5-c936-43ee-a087-5455c384f23f?sp=r&sv=2018-11-09&sr=b&spr=https&se=2026-04-15T13%3A59%3A56Z&rscd=attachment%3B+filename%3Drufus-4.13.exe&rsct=application%2Foctet-stream&skoid=96c2d410-5711-43a1-aedd-ab1947aa7ab0&sktid=398a6654-997b-47e9-b12b-9515b896b4de&skt=2026-04-15T12%3A59%3A45Z&ske=2026-04-15T13%3A59%3A56Z&sks=b&skv=2018-11-09&sig=aog%2FelNnjfR3z607xl7yOzZAySHK7BQaWHj8nmWh3ug%3D&jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmVsZWFzZS1hc3NldHMuZ2l0aHVidXNlcmNvbnRlbnQuY29tIiwia2V5Ijoia2V5MSIsImV4cCI6MTc3NjI1ODM0NSwibmJmIjoxNzc2MjU4MDQ1LCJwYXRoIjoicmVsZWFzZWFzc2V0cHJvZHVjdGlvbi5ibG9iLmNvcmUud2luZG93cy5uZXQifQ.uojcooC-rrMviiMbMk4-X7vPwBEdp2m7m5sGQ83WdAw&response-content-disposition=attachment%3B%20filename%3Drufus-4.13.exe&response-content-type=application%2Foctet-stream">
-        Copy URL
-      </button>
-    </div>
-
-       <!-- WizTree -->
-    <div class="card">
-      <div class="card-header">
-        <img src="https://antibodysoftware-17031.kxcdn.com/images/wiztree200x.png" alt="WizTree">
-        <h2>Wiztree</h2>
-      </div>
-      <p>WizTree is a Disk Space Analyzer</p>
-      <a class="download" href="https://diskanalyzer.com/files/wiztree_4_31_portable.zip">Download</a>
-       <button class="copy"
-        onclick="copyRawUrl(this)"
-        data-url="https://diskanalyzer.com/files/wiztree_4_31_portable.zip">
-        Copy URL
-      </button>
-    </div>
-
-  </div>
-
-  <footer>
-    Internal installer repository · Hosted on GitHub Pages
-  </footer>
-
-  
 <script>
 let apps = {};
 let profiles = {};
@@ -362,17 +205,30 @@ async function loadData() {
   apps = await fetch("apps.json").then(r => r.json());
   profiles = await fetch("profiles.json").then(r => r.json());
 
-  renderAppLibrary();
+  renderProfiles();
+  renderApps();
 }
 
-function setProfile(profileKey) {
-  const p = profiles[profileKey];
-  selectedProfile = profileKey;
+function renderProfiles() {
+  const container = document.getElementById("profile-buttons");
+  container.innerHTML = "";
+
+  Object.keys(profiles).forEach(key => {
+    const btn = document.createElement("button");
+    btn.className = "download";
+    btn.innerText = profiles[key].name;
+    btn.onclick = () => setProfile(key);
+    container.appendChild(btn);
+  });
+}
+
+function setProfile(key) {
+  const p = profiles[key];
+  selectedProfile = key;
 
   document.getElementById("profile-title").innerText = p.name;
   document.getElementById("profile-desc").innerText = p.description;
 
-  // badges
   const badgeContainer = document.getElementById("profile-badges");
   badgeContainer.innerHTML = "";
   p.badges.forEach(b => {
@@ -383,32 +239,29 @@ function setProfile(profileKey) {
     badgeContainer.appendChild(span);
   });
 
-  // app list
-  const list = document.getElementById("profile-apps");
-  list.innerHTML = "";
+  const appList = document.getElementById("profile-apps");
+  appList.innerHTML = "";
   p.apps.forEach(appId => {
     const li = document.createElement("li");
     li.innerText = apps[appId].name;
-    list.appendChild(li);
+    appList.appendChild(li);
   });
 
   document.getElementById("ps-command").innerText =
-    `$env:INSTALLER_PROFILE="${profileKey}"; ` +
+    `$env:INSTALLER_PROFILE="${key}"; ` +
     `iwr https://tech-ethan.github.io/cps-tech.github.io/bootstrap.ps1 -useb | iex`;
 }
 
-function renderAppLibrary() {
-  const grid = document.getElementById("grid");
+function renderApps() {
+  const grid = document.getElementById("app-grid");
   grid.innerHTML = "";
 
   Object.values(apps).forEach(app => {
     const card = document.createElement("div");
     card.className = "card";
-
     card.innerHTML = `
       <div class="card-header">
-        <imgp.icon}
-        <h2>${app.name}</h2>
+        <img src="${app.icon<h2>${app.name}</h2>
       </div>
       <p>${app.description}</p>
       <div class="actions">
@@ -417,8 +270,14 @@ function renderAppLibrary() {
         </button>
       </div>
     `;
-
     grid.appendChild(card);
+  });
+}
+
+function filterCards() {
+  const q = document.getElementById("search").value.toLowerCase();
+  document.querySelectorAll("#app-grid .card").forEach(card => {
+    card.style.display = card.innerText.toLowerCase().includes(q) ? "block" : "none";
   });
 }
 
@@ -431,6 +290,5 @@ function copyCommand() {
 loadData();
 </script>
 
-  
 </body>
 </html>
