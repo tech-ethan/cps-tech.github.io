@@ -1,0 +1,21 @@
+{
+  "chrome": {
+    "name": "Google Chrome",
+    "description": "Enterprise web browser",
+    "icon": "https://www.google.com/chrome/static/images/chrome-logo-m100.svg",
+    "installer": {
+      "type": "exe",
+      "url": "https://dl.google.com/update2/installers/ChromeSetup.exe",
+      "args": "/silent /install"
+    }
+  },
+  "instashare": {
+    "name": "InstaShare",
+    "description": "BENQ casting software",
+    "icon": "https://play-lh.googleusercontent.com/o0fHrq52...",
+    "installer": {
+      "type": "zip",
+      "url": "https://esupportdownload.benq.com/...zip"
+    }
+  }
+}
