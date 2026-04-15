@@ -354,37 +354,83 @@ Select a profile above
 
   
 <script>
-const profiles = {
-  standard: {
-    name: "Standard Setup",
-    description: "Application Stack for Teachers",
-    badges: ["User", "Daily Use", "Low Risk"],
-    color: "#FF5F15",
-    apps: [
-      "Google Chrome",
-      "Google Drive",
-      "InstaShare",
-      "InstaShare 2",
-    ]
-  },
-  admin: {
-    name: "Administrator Setup",
-    description: "Application Stack for Admins.",
-    badges: ["Tech", "Admin", "Advanced"],
-    color: "#ef4444",
-    apps: [
-      "Rufus",
-      "WizTree",
-      "PuTTY",
-    ]
-  },
-  classroom: {
-    name: "Classroom Setup",
-    description: "Application Stack for Classroom Lab Environments.",
-    badges: ["Classroom", "Casting", "Low Risk"],
-    color: "#22c55e",
-  }
-};
+<script>
+let apps = {};
+let profiles = {};
+let selectedProfile = null;
+
+async function loadData() {
+  apps = await fetch("apps.json").then(r => r.json());
+  profiles = await fetch("profiles.json").then(r => r.json());
+
+  renderAppLibrary();
+}
+
+function setProfile(profileKey) {
+  const p = profiles[profileKey];
+  selectedProfile = profileKey;
+
+  document.getElementById("profile-title").innerText = p.name;
+  document.getElementById("profile-desc").innerText = p.description;
+
+  // badges
+  const badgeContainer = document.getElementById("profile-badges");
+  badgeContainer.innerHTML = "";
+  p.badges.forEach(b => {
+    const span = document.createElement("span");
+    span.className = "badge";
+    span.style.background = p.color;
+    span.innerText = b;
+    badgeContainer.appendChild(span);
+  });
+
+  // app list
+  const list = document.getElementById("profile-apps");
+  list.innerHTML = "";
+  p.apps.forEach(appId => {
+    const li = document.createElement("li");
+    li.innerText = apps[appId].name;
+    list.appendChild(li);
+  });
+
+  document.getElementById("ps-command").innerText =
+    `$env:INSTALLER_PROFILE="${profileKey}"; ` +
+    `iwr https://tech-ethan.github.io/cps-tech.github.io/bootstrap.ps1 -useb | iex`;
+}
+
+function renderAppLibrary() {
+  const grid = document.getElementById("grid");
+  grid.innerHTML = "";
+
+  Object.values(apps).forEach(app => {
+    const card = document.createElement("div");
+    card.className = "card";
+
+    card.innerHTML = `
+      <div class="card-header">
+        <imgp.icon}
+        <h2>${app.name}</h2>
+      </div>
+      <p>${app.description}</p>
+      <div class="actions">
+        <a class="download" href="${app.download}on class="copy" onclick="navigator.clipboard.writeText('${app.download}')">
+          Copy URL
+        </button>
+      </div>
+    `;
+
+    grid.appendChild(card);
+  });
+}
+
+function copyCommand() {
+  navigator.clipboard.writeText(
+    document.getElementById("ps-command").innerText
+  );
+}
+
+loadData();
+</script>
 
 let selectedProfile = null;
 
