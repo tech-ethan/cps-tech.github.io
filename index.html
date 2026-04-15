@@ -354,7 +354,6 @@ Select a profile above
 
   
 <script>
-<script>
 let apps = {};
 let profiles = {};
 let selectedProfile = null;
@@ -431,53 +430,7 @@ function copyCommand() {
 
 loadData();
 </script>
-<script>
-let selectedProfile = null;
-
-function setProfile(profile) {
-  selectedProfile = profile;
-
-  const p = profiles[profile];
-
-  document.getElementById("profile-title").innerText = p.name;
-  document.getElementById("profile-desc").innerText = p.description;
-
-  // Badges
-  const badgeContainer = document.getElementById("profile-badges");
-  badgeContainer.innerHTML = "";
-  p.badges.forEach(b => {
-    const span = document.createElement("span");
-    span.className = "badge";
-    span.style.background = p.color;
-    span.innerText = b;
-    badgeContainer.appendChild(span);
-  });
 
   
-// App list
-  const appList = document.getElementById("profile-apps");
-  appList.innerHTML = "";
-  p.apps.forEach(app => {
-    const li = document.createElement("li");
-    li.innerText = app;
-    appList.appendChild(li);
-  });
-
-
-  const cmd =
-    `$env:INSTALLER_PROFILE="${profile}"; `
-    + `iwr https://tech-ethan.github.io/cps-tech.github.io/bootstrap.ps1 -useb | iex`;
-
-  document.getElementById("ps-command").innerText = cmd;
-}
-
-function copyCommand() {
-  navigator.clipboard.writeText(
-    document.getElementById("ps-command").innerText
-  );
-}
-</script>
-
-
 </body>
 </html>
