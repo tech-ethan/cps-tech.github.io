@@ -46,11 +46,5 @@
     "description": "Camera Access Application",
     "icon": "https://play-lh.googleusercontent.com/-1ZN3r8_csJazOp1DPUK0KCTf_x72U0yTZq23MgeViBMWfGcjqfm7LbnhyEoIF_xEw",
     "download": "https://updates.wavevms.com/hanwha/41290/windows/wave-client-6.0.5.41290-windows_x64.exe"
-  },
-    "wisenet": {
-    "name": "Wisenet Wave",
-    "description": "Camera Access Application",
-    "icon": "https://play-lh.googleusercontent.com/-1ZN3r8_csJazOp1DPUK0KCTf_x72U0yTZq23MgeViBMWfGcjqfm7LbnhyEoIF_xEw",
-    "download": "https://updates.wavevms.com/hanwha/41290/windows/wave-client-6.0.5.41290-windows_x64.exe"
   }
 }
