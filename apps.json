@@ -3,19 +3,18 @@
     "name": "Google Chrome",
     "description": "Enterprise web browser",
     "icon": "https://www.google.com/chrome/static/images/chrome-logo-m100.svg",
-    "installer": {
-      "type": "exe",
-      "url": "https://dl.google.com/update2/installers/ChromeSetup.exe",
-      "args": "/silent /install"
-    }
+    "download": "https://dl.google.com/update2/installers/ChromeSetup.exe"
+  },
+  "drive": {
+    "name": "Google Drive",
+    "description": "Google Drive for Desktop",
+    "icon": "https://static.vecteezy.com/system/resources/previews/017/395/378/non_2x/google-drive-icons-free-png.png",
+    "download": "https://dl.google.com/drive-file-stream/GoogleDriveSetup.exe"
   },
   "instashare": {
     "name": "InstaShare",
-    "description": "BENQ casting software",
-    "icon": "https://play-lh.googleusercontent.com/o0fHrq52...",
-    "installer": {
-      "type": "zip",
-      "url": "https://esupportdownload.benq.com/...zip"
-    }
+    "description": "BENQ Gen‑1 Casting Application",
+    "icon": "https://play-lh.googleusercontent.com/o0fHrq52G0OjiB_1PRVytx3DlunmznPXDc-uv2HhCngVRMDM0zhshHYFAEdxoN6k-PM",
+    "download": "https://esupportdownload.benq.com/esupport/PUBLIC%20DISPLAY%20PRODUCT/Software/InstaShare/InstaShare_for%20Windows%20(.MSI)_v2.0.0.26_Windows_230330163404.zip"
   }
 }
