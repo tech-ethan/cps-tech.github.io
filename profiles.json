@@ -2,7 +2,7 @@
   "standard": {
     "name": "Standard Setup",
     "badges": ["User", "Daily Use"],
-    "apps": ["chrome"]
+    "apps": ["chrome","instashare","instashare2"]
   },
   "admin": {
     "name": "Admin Setup",
