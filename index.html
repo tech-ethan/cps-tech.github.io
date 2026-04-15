@@ -291,31 +291,58 @@ Select a profile above
 
   
 <script>
+const profiles = {
+  standard: {
+    name: "Standard Setup",
+    description: "General‑purpose user workstation with core applications.",
+    badges: ["User", "Daily Use", "Low Risk"],
+    color: "#3b82f6"
+  },
+  admin: {
+    name: "Admin Setup",
+    description: "IT / technician machine with diagnostics and admin tools.",
+    badges: ["IT", "Admin", "Advanced"],
+    color: "#ef4444"
+  },
+  classroom: {
+    name: "Classroom Setup",
+    description: "Apps that Students are likely to use/need in a lab environment.",
+    badges: ["Classroom", "Panel", "AV"],
+    color: "#22c55e"
+  }
+};
+
+let selectedProfile = null;
+
 function setProfile(profile) {
-  const cmd = `$env:INSTALLER_PROFILE="${profile}"; `
+  selectedProfile = profile;
+
+  const p = profiles[profile];
+
+  document.getElementById("profile-title").innerText = p.name;
+  document.getElementById("profile-desc").innerText = p.description;
+
+  const badgeContainer = document.getElementById("profile-badges");
+  badgeContainer.innerHTML = "";
+  p.badges.forEach(b => {
+    const span = document.createElement("span");
+    span.className = "badge";
+    span.style.background = p.color;
+    span.innerText = b;
+    badgeContainer.appendChild(span);
+  });
+
+  const cmd =
+    `$env:INSTALLER_PROFILE="${profile}"; `
     + `iwr https://tech-ethan.github.io/cps-tech.github.io/bootstrap.ps1 -useb | iex`;
 
   document.getElementById("ps-command").innerText = cmd;
 }
+
 function copyCommand() {
-  const text = document.getElementById("ps-command").innerText;
-  navigator.clipboard.writeText(text);
-}
-
-function copyText(id) {
-  navigator.clipboard.writeText(document.getElementById(id).innerText.trim());
-}
-
-function copyRawUrl(btn) {
-  navigator.clipboard.writeText(btn.dataset.url);
-}
-
-function filterCards() {
-  const q = document.getElementById("search").value.toLowerCase();
-  document.querySelectorAll(".card").forEach(card => {
-    card.style.display = card.innerText.toLowerCase().includes(q)
-      ? "block" : "none";
-  });
+  navigator.clipboard.writeText(
+    document.getElementById("ps-command").innerText
+  );
 }
 </script>
 
