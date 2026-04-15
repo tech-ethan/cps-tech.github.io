@@ -1,0 +1,18 @@
+{
+  "standard": {
+    "name": "Standard Setup",
+    "badges": ["User", "Daily Use"],
+    "apps": ["chrome"]
+  },
+  "admin": {
+    "name": "Admin Setup",
+    "badges": ["IT", "Admin"],
+    "apps": ["chrome", "vscode", "sysinternals"]
+  },
+  "classroom": {
+    "name": "Classroom Setup",
+    "badges": ["Classroom", "AV"],
+    "apps": ["chrome", "instashare"]
+  }
+}
+``
