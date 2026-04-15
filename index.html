@@ -252,27 +252,58 @@ function setProfile(key) {
     `iwr https://tech-ethan.github.io/cps-tech.github.io/bootstrap.ps1 -useb | iex`;
 }
 
+
 function renderApps() {
   const grid = document.getElementById("app-grid");
   grid.innerHTML = "";
 
+  if (!apps || Object.keys(apps).length === 0) {
+    grid.innerHTML = "<p style='color:#f87171'>No apps loaded.</p>";
+    return;
+  }
+
   Object.values(apps).forEach(app => {
     const card = document.createElement("div");
     card.className = "card";
-    card.innerHTML = `
-      <div class="card-header">
-        <img src="${app.icon<h2>${app.name}</h2>
-      </div>
-      <p>${app.description}</p>
-      <div class="actions">
-        <a class="download" href="${app.download}on class="copy" onclick="navigator.clipboard.writeText('${app.download}')">
-          Copy URL
-        </button>
-      </div>
-    `;
+
+    const header = document.createElement("div");
+    header.className = "card-header";
+
+    const img = document.createElement("img");
+    img.src = app.icon || "";
+    header.appendChild(img);
+
+    const title = document.createElement("h2");
+    title.innerText = app.name;
+    header.appendChild(title);
+
+    const desc = document.createElement("p");
+    desc.innerText = app.description || "";
+
+    const actions = document.createElement("div");
+    actions.className = "actions";
+
+    const download = document.createElement("a");
+    download.className = "download";
+    download.href = app.download;
+    download.innerText = "Download";
+
+    const copyBtn = document.createElement("button");
+    copyBtn.className = "copy";
+    copyBtn.innerText = "Copy URL";
+    copyBtn.onclick = () => navigator.clipboard.writeText(app.download);
+
+    actions.appendChild(download);
+    actions.appendChild(copyBtn);
+
+    card.appendChild(header);
+    card.appendChild(desc);
+    card.appendChild(actions);
+
     grid.appendChild(card);
   });
 }
+
 
 function filterCards() {
   const q = document.getElementById("search").value.toLowerCase();
