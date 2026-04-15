@@ -106,6 +106,17 @@
       text-decoration: none;
     }
 
+    .badge {
+      display: inline-block;
+      padding: 6px 10px;
+      margin-right: 6px;
+      margin-top: 6px;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: white;
+    }
+
     .download {
       background: var(--accent);
       color: white;
@@ -143,21 +154,27 @@
 <p class="subtitle">Daily setup tools – stable, trusted, ready to deploy</p>
 
 <div class="card" style="margin-bottom:24px;">
+  
+<div class="card" style="margin-bottom:24px;">
   <h2>Quick Setup Profiles</h2>
-  <p>Select a setup type and copy the PowerShell command</p>
+  <p>Select a setup type for this machine</p>
 
   <div class="actions">
     <button class="download" onclick="setProfile('standard')">
-      Standard Setup
+      Standard
     </button>
-
     <button class="download" onclick="setProfile('admin')">
-      Admin Setup
+      Admin
     </button>
-
     <button class="download" onclick="setProfile('classroom')">
-      Classroom / Panel
+      Classroom
     </button>
+  </div>
+
+  <div style="margin-top:16px;">
+    <h3 id="profile-title">Select a profile</h3>
+    <p id="profile-desc" class="subtitle"></p>
+    <div id="profile-badges"></div>
   </div>
 
   <pre id="ps-command" style="margin-top:16px;">
@@ -166,6 +183,7 @@ Select a profile above
 
   <button class="copy" onclick="copyCommand()">Copy PowerShell Command</button>
 </div>
+
 
 <input class="search" id="search" placeholder="Search installers…" onkeyup="filterCards()">
 
