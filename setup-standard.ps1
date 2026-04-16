@@ -35,13 +35,13 @@ Install-Exe `
   -Args "/quiet /norestart"
 
 # ================================
-# Winget Fallbacks (Optional)
+# Winget Fallbacks 
 # ================================
 
-Install-Winget -Id "BenQ.InstaShare"
-Install-Winget -Id "Benq.InstaShare2"
-Install-Winget -Id "Google.GoogleDrive"
-Install-Winget -Id "Google.Chrome"
+#Install-Winget -Id "BenQ.InstaShare"
+#Install-Winget -Id "Benq.InstaShare2"
+#Install-Winget -Id "Google.GoogleDrive"
+#Install-Winget -Id "Google.Chrome"
 
 Write-Host "Setup complete!" -ForegroundColor Green
 Stop-Transcript
