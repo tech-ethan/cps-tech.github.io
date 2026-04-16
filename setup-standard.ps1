@@ -38,8 +38,10 @@ Install-Exe `
 # Winget Fallbacks (Optional)
 # ================================
 
-#Install-Winget -Id "Microsoft.VisualStudioCode"
-#Install-Winget -Id "7zip.7zip"
+Install-Winget -Id "BenQ.InstaShare"
+Install-Winget -Id "Benq.InstaShare2"
+Install-Winget -Id "Google.GoogleDrive"
+Install-Winget -Id "Google.Chrome"
 
 Write-Host "Setup complete!" -ForegroundColor Green
 Stop-Transcript
