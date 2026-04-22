@@ -242,16 +242,16 @@ function setProfile(key) {
   const appList = document.getElementById("profile-apps");
   appList.innerHTML = "";
   p.apps.forEach(appId => {
+    if (!apps[appId]) return;
     const li = document.createElement("li");
     li.innerText = apps[appId].name;
     appList.appendChild(li);
   });
 
   document.getElementById("ps-command").innerText =
-    `$env:INSTALLER_PROFILE="${key}"; ` +
-    `iwr https://tech-ethan.github.io/cps-tech.github.io/bootstrap.ps1 -useb | iex`;
+    '$env:INSTALLER_PROFILE="' + key + '"; ' +
+    'iwr https://tech-ethan.github.io/cps-tech.github.io/bootstrap.ps1 -useb | iex';
 }
-
 
 function renderApps() {
   const grid = document.getElementById("app-grid");
@@ -263,6 +263,11 @@ function renderApps() {
   }
 
   Object.values(apps).forEach(app => {
+    if (!app.installer || !app.installer.url) {
+      console.warn("App missing installer data:", app);
+      return;
+    }
+
     const card = document.createElement("div");
     card.className = "card";
 
@@ -285,13 +290,13 @@ function renderApps() {
 
     const download = document.createElement("a");
     download.className = "download";
-    download.href = app.download;
+    download.href = app.installer.url;
     download.innerText = "Download";
 
     const copyBtn = document.createElement("button");
     copyBtn.className = "copy";
     copyBtn.innerText = "Copy URL";
-    copyBtn.onclick = () => navigator.clipboard.writeText(app.download);
+    copyBtn.onclick = () => navigator.clipboard.writeText(app.installer.url);
 
     actions.appendChild(download);
     actions.appendChild(copyBtn);
@@ -303,7 +308,6 @@ function renderApps() {
     grid.appendChild(card);
   });
 }
-
 
 function filterCards() {
   const q = document.getElementById("search").value.toLowerCase();
