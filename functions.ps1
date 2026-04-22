@@ -36,31 +36,73 @@ function Is-Installed {
     return $false
 }
 
-function Install-Exe {
+function Install-App {
     param (
         [Parameter(Mandatory)]
         [string]$Name,
 
         [Parameter(Mandatory)]
-        [string]$Url,
-
-        [string]$Args = ""
+        [hashtable]$Installer
     )
 
     if (Is-Installed -DisplayName $Name) {
-        Write-Host "$Name is already installed.. skipping." -ForegroundColor Yellow
-        return 
-        }
+        Write-Host "$Name is already installed — skipping." -ForegroundColor Yellow
+        return
+    }
 
-    $safeName = ($Name -replace '\s+', '_')
-    $file     = Join-Path $env:TEMP "$safeName.exe"
+    $tempRoot = Join-Path $env:TEMP "InstallerHub"
+    New-Item -ItemType Directory -Force -Path $tempRoot | Out-Null
+
+    $fileName = Split-Path $Installer.url -Leaf
+    $downloadPath = Join-Path $tempRoot $fileName
 
     Write-Host "Downloading $Name..." -ForegroundColor Cyan
-    Invoke-WebRequest -Uri $Url -OutFile $file -UseBasicParsing
+    Invoke-WebRequest -Uri $Installer.url -OutFile $downloadPath -UseBasicParsing
 
-    Write-Host "Installing $Name..." -ForegroundColor Green
-    Start-Process -FilePath $file -ArgumentList $Args -Wait -NoNewWindow
+    switch ($Installer.type.ToLower()) {
+
+        "exe" {
+            Write-Host "Installing $Name (EXE)..." -ForegroundColor Green
+            Start-Process $downloadPath -ArgumentList $Installer.silentArgs -Wait -NoNewWindow
+        }
+
+        "msi" {
+            Write-Host "Installing $Name (MSI)..." -ForegroundColor Green
+            Start-Process "msiexec.exe" `
+                -ArgumentList "/i `"$downloadPath`" $($Installer.silentArgs)" `
+                -Wait -NoNewWindow
+        }
+
+        "zip" {
+            Write-Host "Extracting ZIP for $Name..." -ForegroundColor Cyan
+
+            $extractPath = Join-Path $tempRoot ($Name -replace '\s+', '_')
+            Expand-Archive -Path $downloadPath -DestinationPath $extractPath -Force
+
+            if ($Installer.innerInstaller -eq "msi") {
+                $msi = Get-ChildItem $extractPath -Filter *.msi -Recurse | Select-Object -First 1
+                if (-not $msi) { throw "No MSI found in ZIP for $Name" }
+
+                Write-Host "Installing $Name (ZIP → MSI)..." -ForegroundColor Green
+                Start-Process "msiexec.exe" `
+                    -ArgumentList "/i `"$($msi.FullName)`" $($Installer.silentArgs)" `
+                    -Wait -NoNewWindow
+            }
+            else {
+                $exe = Get-ChildItem $extractPath -Filter *.exe -Recurse | Select-Object -First 1
+                if (-not $exe) { throw "No EXE found in ZIP for $Name" }
+
+                Write-Host "Installing $Name (ZIP → EXE)..." -ForegroundColor Green
+                Start-Process $exe.FullName -ArgumentList $Installer.silentArgs -Wait -NoNewWindow
+            }
+        }
+
+        default {
+            throw "Unknown installer type '$($Installer.type)' for $Name"
+        }
+    }
 }
+
 
 function Install-Winget {
     param (
