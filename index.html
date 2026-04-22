@@ -202,8 +202,8 @@ let profiles = {};
 let selectedProfile = null;
 
 async function loadData() {
-  apps = await fetch("apps.json").then(r => r.json());
-  profiles = await fetch("profiles.json").then(r => r.json());
+  apps = await fetch("./apps.json").then(r => r.json());
+  profiles = await fetch("./profiles.json").then(r => r.json());
 
   renderProfiles();
   renderApps();
@@ -211,14 +211,22 @@ async function loadData() {
 
 function renderProfiles() {
   const container = document.getElementById("profile-buttons");
-  container.innerHTML = "";
-
-  Object.keys(profiles).forEach(key => {
-    const btn = document.createElement("button");
-    btn.className = "download";
-    btn.innerText = profiles[key].name;
-    btn.onclick = () => setProfile(key);
-    container.appendChild(btn);
+    container.innerHTML = "";
+  
+    if (!profiles || Object.keys(profiles).length === 0) {
+      container.innerHTML = "<p style='color:#f87171'>No profiles loaded.</p>";
+      return;
+    }
+  
+    Object.keys(profiles).forEach(key => {
+      const profile = profiles[key];
+      if (!profile.name) return;
+  
+      const btn = document.createElement("button");
+      btn.className = "download";
+      btn.innerText = profile.name;
+      btn.onclick = () => setProfile(key);
+      container.appendChild(btn);
   });
 }
 
