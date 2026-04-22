@@ -48,15 +48,16 @@ foreach ($profile in $Profiles.PSObject.Properties) {
         $app = $Apps.$appId
 
         $lines += "# --- $($app.name)"
-        $lines += "Install-Exe `"
+        $lines += "Install-App `"
         $lines += "  -Name `"$($app.name)`" `"
-        $lines += "  -Url `"$($app.download)`""
-
-        # Optional args (future-proof)
-        if ($app.installer -and $app.installer.args) {
-            $lines += "  -Args `"$($app.installer.args)`""
+        $lines += "  -Installer @{"
+        
+        foreach ($key in $app.installer.PSObject.Properties.Name) {
+            $value = $app.installer.$key
+            $lines += "    $key = `"$value`""
         }
-
+        
+        $lines += "  }"
         $lines += ""
     }
 
