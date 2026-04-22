@@ -1,17 +1,17 @@
 {
   "standard": {
     "name": "Standard Setup",
-    "badges": ["User", "Daily Use"],
-    "apps": ["chrome","instashare","instashare2"]
+    "badges": ["Default", "Teacher"],
+    "apps": ["chrome","drive","instashare","instashare2","uniflow","vcast"]
   },
   "admin": {
     "name": "Admin Setup",
     "badges": ["IT", "Admin"],
-    "apps": ["chrome", "vscode", "sysinternals"]
+    "apps": ["chrome", "drive", "wisenet", "uniflow"]
   },
   "classroom": {
     "name": "Classroom Setup",
-    "badges": ["Classroom", "AV"],
-    "apps": ["chrome", "instashare"]
+    "badges": ["Classroom", "Testing"],
+    "apps": ["chrome", "uniflow"]
   }
 }

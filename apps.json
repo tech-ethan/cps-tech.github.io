@@ -4,9 +4,9 @@
     "description": "Enterprise web browser",
     "icon": "https://www.google.com/chrome/static/images/chrome-logo-m100.svg",
     "installer": {
-      "type": "exe"
-      "url": "https://dl.google.com/update2/installers/ChromeSetup.exe"
-      "silentArgs": "/silent /install"
+      "type": "exe",
+      "url": "https://dl.google.com/update2/installers/ChromeSetup.exe",
+      "silentArgs": "/silent /install",
       "innerInstaller": "exe"
     }
   },
@@ -15,9 +15,9 @@
     "description": "Google Drive for Desktop",
     "icon": "https://static.vecteezy.com/system/resources/previews/017/395/378/non_2x/google-drive-icons-free-png.png",
     "installer": {
-      "type": "exe"
-      "url": "https://dl.google.com/drive-file-stream/GoogleDriveSetup.exe"
-      "silentArgs": "/silent /install"
+      "type": "exe",
+      "url": "https://dl.google.com/drive-file-stream/GoogleDriveSetup.exe",
+      "silentArgs": "/silent /install",
       "innerInstaller": "exe"
     }
   },
@@ -48,7 +48,12 @@
     "name": "UniFLOW SmartClient",
     "description": "UniFLOWs Printing Service",
     "icon": "https://s7d1.scene7.com/is/image/canon/uniFLOW-Online-logo?fmt=webp-alpha&wid=800&hei=800",
-    "download": "https://drive.usercontent.google.com/download?id=1Mu-HkbYJqz5Ut2dVx0R83MS8UfBtXGpw&export=download&authuser=0&confirm=t&uuid=a909198c-ea6b-44b1-876b-44d501dbb59f&at=ALBwUgljwfuPZQITV_TjYRiyQQJl%3A1776094695367"
+    "installer": {
+      "type": "msi",
+      "url": "https://antibodysoftware-17031.kxcdn.com/files/wiztree_4_31_portable.zip",
+      "silentArgs": "/silent /install",
+      "innerInstaller": "msi"
+    }
   },
     "wiztree": {
     "name": "WizTree",
@@ -83,7 +88,7 @@
       "innerInstaller": "exe"
     }
   },
-    "vcastsender": {
+    "vcast": {
     "name": "vCastSender",
     "description": "ViewSonic's Casting Application",
     "icon": "https://play-lh.googleusercontent.com/vVBhp8xJxIDNXPv15ieriUwZswKvrxrUy-YkI0_WTM0gyftcILJUMEx7j6jTfS-ZYA=w600-h300-pc0xffffff-pd",

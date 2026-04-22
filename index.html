@@ -89,6 +89,44 @@
       margin-bottom: 16px;
     }
 
+    .profile-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 14px;
+      margin-top: 12px;
+    }
+
+    .profile-app-card {
+      background: #020617;
+      border-radius: 12px;
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .profile-app-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .profile-app-header img {
+      width: 32px;
+      height: 32px;
+    }
+
+    .profile-app-title {
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+
+    .profile-app-desc {
+      font-size: 0.75rem;
+      color: var(--muted);
+      line-height: 1.2;
+    }
+
     .actions {
       display: flex;
       gap: 10px;
@@ -128,6 +166,32 @@
       font-size: 0.75rem;
       font-weight: 600;
       color: white;
+    }
+
+    .installer-badge {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: white;
+}
+
+    .badge-exe {
+      background-color: #3b82f6;
+    }
+
+    .badge-msi {
+      background-color: #a855f7;
+    }
+
+    .badge-zip {
+      background-color: #22c55e;
+    }
+
+    .badge-winget {
+      background-color: #64748b;
     }
 
     .app-list {
@@ -177,11 +241,11 @@
   </div>
 
   <div style="margin-top:16px;">
-    <h4>What gets installed</h4>
-    <ul id="profile-apps" class="app-list">
-      <li>Select a profile to view installed applications</li>
-    </ul>
+  <h4>What gets installed</h4>
+  <div id="profile-apps" class="profile-grid">
+    <p class="subtitle">Select a profile to view installed applications</p>
   </div>
+</div>
 
   <pre id="ps-command">Select a profile above</pre>
   <button class="copy" onclick="copyCommand()">Copy PowerShell Command</button>
@@ -247,18 +311,78 @@ function setProfile(key) {
     badgeContainer.appendChild(span);
   });
 
-  const appList = document.getElementById("profile-apps");
-  appList.innerHTML = "";
-  p.apps.forEach(appId => {
-    if (!apps[appId]) return;
-    const li = document.createElement("li");
-    li.innerText = apps[appId].name;
-    appList.appendChild(li);
-  });
+  const appContainer = document.getElementById("profile-apps");
+appContainer.innerHTML = "";
+
+p.apps.forEach(appId => {
+  const app = apps[appId];
+  if (!app || !app.installer) return;
+
+  const card = document.createElement("div");
+  card.className = "profile-app-card";
+
+  const header = document.createElement("div");
+  header.className = "profile-app-header";
+
+  const img = document.createElement("img");
+  img.src = app.icon || "";
+  header.appendChild(img);
+
+  const titleWrapper = document.createElement("div");
+
+  const title = document.createElement("div");
+  title.className = "profile-app-title";
+  title.innerText = app.name;
+  titleWrapper.appendChild(title);
+
+  if (app.installer.type) {
+    const badge = createInstallerBadge(app.installer.type);
+    badge.style.marginTop = "4px";
+    titleWrapper.appendChild(badge);
+  }
+
+  header.appendChild(titleWrapper);
+
+  const desc = document.createElement("div");
+  desc.className = "profile-app-desc";
+  desc.innerText = app.description || "";
+
+  card.appendChild(header);
+  card.appendChild(desc);
+
+  appContainer.appendChild(card);
+});
 
   document.getElementById("ps-command").innerText =
     '$env:INSTALLER_PROFILE="' + key + '"; ' +
     'iwr https://tech-ethan.github.io/cps-tech.github.io/bootstrap.ps1 -useb | iex';
+}
+
+function createInstallerBadge(type) {
+  const badge = document.createElement("span");
+  badge.classList.add("installer-badge");
+
+  const t = type.toLowerCase();
+  badge.innerText = t.toUpperCase();
+
+  switch (t) {
+    case "exe":
+      badge.classList.add("badge-exe");
+      break;
+    case "msi":
+      badge.classList.add("badge-msi");
+      break;
+    case "zip":
+      badge.classList.add("badge-zip");
+      break;
+    case "winget":
+      badge.classList.add("badge-winget");
+      break;
+    default:
+      badge.style.backgroundColor = "#6b7280"; // neutral
+  }
+
+  return badge;
 }
 
 function renderApps() {
@@ -286,9 +410,23 @@ function renderApps() {
     img.src = app.icon || "";
     header.appendChild(img);
 
+    const titleWrapper = document.createElement("div");
+    
+    titleWrapper.style.display = "flex";
+    titleWrapper.style.alignItems = "center";
+    titleWrapper.style.gap = "8px";
+
     const title = document.createElement("h2");
     title.innerText = app.name;
-    header.appendChild(title);
+
+    titleWrapper.appendChild(title);
+
+    if (app.installer && app.installer.type) {
+      const badge = createInstallerBadge(app.installer.type);
+      titleWrapper.appendChild(badge);
+    }
+
+header.appendChild(titleWrapper);
 
     const desc = document.createElement("p");
     desc.innerText = app.description || "";
