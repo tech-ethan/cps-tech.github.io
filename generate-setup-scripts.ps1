@@ -48,17 +48,18 @@ foreach ($profile in $Profiles.PSObject.Properties) {
         $app = $Apps.$appId
 
         $lines += "# --- $($app.name)"
-        $lines += "Install-App `"
-        $lines += "  -Name `"$($app.name)`" `"
-        $lines += "  -Installer @{"
         
-        foreach ($key in $app.installer.PSObject.Properties.Name) {
-            $value = $app.installer.$key
-            $lines += "    $key = `"$value`""
-        }
-        
-        $lines += "  }"
-        $lines += ""
+	$lines += "Install-App -Name `"$($app.name)`" -Installer @{"
+
+	foreach ($prop in $app.installer.PSObject.Properties) {
+    		$key = $prop.Name
+    		$val = $prop.Value
+    		$lines += "  $key = `"$val`""
+	}
+
+	$lines += "}"
+	$lines += ""
+
     }
 
     $lines += "Write-Host `"Setup complete.`" -ForegroundColor Green"
