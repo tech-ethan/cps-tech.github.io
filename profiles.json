@@ -21,6 +21,6 @@
     "name": "Testing Setup",
     "description": "This profile is used for testing purposes. It includes a minimal set of applications to ensure that the setup process works correctly.",
     "badges": ["Testing"],
-    "apps": ["firefox"]
+    "apps": ["firefox","chrome"]
   }
 }
