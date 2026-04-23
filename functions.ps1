@@ -14,6 +14,18 @@ function Assert-Administrator {
     }
 }
 
+
+# Global install results (per run)
+$Script:InstallResults = @{
+    Computer   = $env:COMPUTERNAME
+    Profile    = ""
+    StartTime  = Get-Date
+    EndTime    = $null
+    Status     = "Success"
+    Apps       = @()
+}
+
+
 function Is-Installed {
     param (
         [Parameter(Mandatory)]
@@ -45,61 +57,114 @@ function Install-App {
         [hashtable]$Installer
     )
 
-    if (Is-Installed -DisplayName $Name) {
-        Write-Host "$Name is already installed — skipping." -ForegroundColor Yellow
-        return
-    }
+    try {
+        # ------------------------------
+        # Already installed → Skip
+        # ------------------------------
+        if (Is-Installed -DisplayName $Name) {
+            Write-Host "$Name already installed — skipping." -ForegroundColor Yellow
 
-    $tempRoot = Join-Path $env:TEMP "InstallerHub"
-    New-Item -ItemType Directory -Force -Path $tempRoot | Out-Null
+            $Script:InstallResults.Apps += @{
+                Name   = $Name
+                Result = "Skipped"
+            }
 
-    $fileName = Split-Path $Installer.url -Leaf
-    $downloadPath = Join-Path $tempRoot $fileName
-
-    Write-Host "Downloading $Name..." -ForegroundColor Cyan
-    Invoke-WebRequest -Uri $Installer.url -OutFile $downloadPath -UseBasicParsing
-
-    switch ($Installer.type.ToLower()) {
-
-        "exe" {
-            Write-Host "Installing $Name (EXE)..." -ForegroundColor Green
-            Start-Process $downloadPath -ArgumentList $Installer.silentArgs -Wait -NoNewWindow
+            return
         }
 
-        "msi" {
-            Write-Host "Installing $Name (MSI)..." -ForegroundColor Green
-            Start-Process "msiexec.exe" `
-                -ArgumentList "/i `"$downloadPath`" $($Installer.silentArgs)" `
-                -Wait -NoNewWindow
-        }
+        # ------------------------------
+        # Prepare temp workspace
+        # ------------------------------
+        $tempRoot = Join-Path $env:TEMP "InstallerHub"
+        New-Item -ItemType Directory -Force -Path $tempRoot | Out-Null
 
-        "zip" {
-            Write-Host "Extracting ZIP for $Name..." -ForegroundColor Cyan
+        $fileName      = Split-Path $Installer.url -Leaf
+        $downloadPath  = Join-Path $tempRoot $fileName
 
-            $extractPath = Join-Path $tempRoot ($Name -replace '\s+', '_')
-            Expand-Archive -Path $downloadPath -DestinationPath $extractPath -Force
+        # ------------------------------
+        # Download
+        # ------------------------------
+        Write-Host "Downloading $Name..." -ForegroundColor Cyan
+        Invoke-WebRequest -Uri $Installer.url -OutFile $downloadPath -UseBasicParsing
 
-            if ($Installer.innerInstaller -eq "msi") {
-                $msi = Get-ChildItem $extractPath -Filter *.msi -Recurse | Select-Object -First 1
-                if (-not $msi) { throw "No MSI found in ZIP for $Name" }
+        # ------------------------------
+        # Install by type
+        # ------------------------------
+        switch ($Installer.type.ToLower()) {
 
-                Write-Host "Installing $Name (ZIP → MSI)..." -ForegroundColor Green
-                Start-Process "msiexec.exe" `
-                    -ArgumentList "/i `"$($msi.FullName)`" $($Installer.silentArgs)" `
+            "exe" {
+                Write-Host "Installing $Name (EXE)..." -ForegroundColor Green
+                Start-Process $downloadPath `
+                    -ArgumentList $Installer.silentArgs `
                     -Wait -NoNewWindow
             }
-            else {
-                $exe = Get-ChildItem $extractPath -Filter *.exe -Recurse | Select-Object -First 1
-                if (-not $exe) { throw "No EXE found in ZIP for $Name" }
 
-                Write-Host "Installing $Name (ZIP → EXE)..." -ForegroundColor Green
-                Start-Process $exe.FullName -ArgumentList $Installer.silentArgs -Wait -NoNewWindow
+            "msi" {
+                Write-Host "Installing $Name (MSI)..." -ForegroundColor Green
+                Start-Process "msiexec.exe" `
+                    -ArgumentList "/i `"$downloadPath`" $($Installer.silentArgs)" `
+                    -Wait -NoNewWindow
+            }
+
+            "zip" {
+                Write-Host "Extracting ZIP for $Name..." -ForegroundColor Cyan
+
+                $extractPath = Join-Path $tempRoot ($Name -replace '\s+', '_')
+                Expand-Archive -Path $downloadPath -DestinationPath $extractPath -Force
+
+                if ($Installer.innerInstaller -eq "msi") {
+                    $msi = Get-ChildItem $extractPath -Filter *.msi -Recurse | Select-Object -First 1
+                    if (-not $msi) {
+                        throw "No MSI found in ZIP for $Name"
+                    }
+
+                    Write-Host "Installing $Name (ZIP → MSI)..." -ForegroundColor Green
+                    Start-Process "msiexec.exe" `
+                        -ArgumentList "/i `"$($msi.FullName)`" $($Installer.silentArgs)" `
+                        -Wait -NoNewWindow
+                }
+                else {
+                    $exe = Get-ChildItem $extractPath -Filter *.exe -Recurse | Select-Object -First 1
+                    if (-not $exe) {
+                        throw "No EXE found in ZIP for $Name"
+                    }
+
+                    Write-Host "Installing $Name (ZIP → EXE)..." -ForegroundColor Green
+                    Start-Process $exe.FullName `
+                        -ArgumentList $Installer.silentArgs `
+                        -Wait -NoNewWindow
+                }
+            }
+
+            default {
+                throw "Unknown installer type '$($Installer.type)' for $Name"
             }
         }
 
-        default {
-            throw "Unknown installer type '$($Installer.type)' for $Name"
+        # ------------------------------
+        # SUCCESS
+        # ------------------------------
+        Write-Host "$Name installed successfully." -ForegroundColor Green
+
+        $Script:InstallResults.Apps += @{
+            Name   = $Name
+            Result = "Installed"
         }
+    }
+    catch {
+        # ------------------------------
+        # FAILURE
+        # ------------------------------
+        Write-Host "$Name installation FAILED: $_" -ForegroundColor Red
+
+        $Script:InstallResults.Apps += @{
+            Name   = $Name
+            Result = "Failed"
+            Error  = $_.ToString()
+        }
+
+        # Mark overall run as failed
+        $Script:InstallResults.Status = "Failed"
     }
 }
 

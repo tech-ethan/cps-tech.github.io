@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Reports & Logs · Installer Hub</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <style>
+    :root {
+      --bg: #0f172a;
+      --card: #111827;
+      --accent: #3b82f6;
+      --text: #e5e7eb;
+      --muted: #9ca3af;
+      --success: #22c55e;
+      --warn: #facc15;
+      --fail: #ef4444;
+    }
+
+    * {
+      box-sizing: border-box;
+      font-family: Inter, Segoe UI, Roboto, sans-serif;
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      padding: 32px;
+    }
+
+    /* ---------- Navigation ---------- */
+    .nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .nav-title {
+      font-weight: 700;
+      font-size: 1.1rem;
+    }
+
+    .nav-links a {
+      margin-left: 16px;
+      text-decoration: none;
+      color: var(--muted);
+      font-weight: 600;
+      border-bottom: 2px solid transparent;
+    }
+
+    .nav-links a.active {
+      color: var(--accent);
+      border-bottom-color: var(--accent);
+    }
+
+    .breadcrumbs {
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-bottom: 24px;
+    }
+
+    .breadcrumbs a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    /* ---------- Layout ---------- */
+    h1 {
+      margin-bottom: 6px;
+    }
+
+    .subtitle {
+      color: var(--muted);
+      margin-bottom: 24px;
+    }
+
+    .card {
+      background: var(--card);
+      border-radius: 14px;
+      padding: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+      margin-bottom: 20px;
+    }
+
+    .machine-card h2 {
+      margin-top: 0;
+    }
+
+    .run-row {
+      display: grid;
+      grid-template-columns: 1fr 120px 80px;
+      gap: 12px;
+      padding: 8px 0;
+      border-bottom: 1px solid #1e293b;
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
+
+    .run-row:hover {
+      background: rgba(255,255,255,0.02);
+    }
+
+    .status-success { color: var(--success); }
+    .status-failed  { color: var(--fail); }
+
+    .run-details {
+      margin-top: 12px;
+      padding-left: 12px;
+      display: none;
+    }
+
+    .run-details.active {
+      display: block;
+    }
+
+    .app-result {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.85rem;
+      padding: 4px 0;
+    }
+
+    footer {
+      margin-top: 40px;
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+  </style>
+</head>
+
+<body>
+
+<!-- Navigation -->
+<div class="nav">
+  <div class="nav-title">Installer Hub</div>
+  <div class="nav-links">
+    <a href="index.html">Profiles</a>
+    <a href="apps.html">Application Library</a>
+    <a href="reports.html" class="active">Reports</a>
+  </div>
+</div>
+
+<div class="breadcrumbs">
+  <a href="index.html">Installer Hub</a> › <span>Reports & Logs</span>
+</div>
+
+<h1>Reports & Logs</h1>
+<p class="subtitle">
+  Per‑machine installation history generated automatically by Installer Hub
+</p>
+
+<div id="report-container"></div>
+
+<footer>
+  Logs are generated locally on machines at <code>C:\SetupLogs\Reports</code>  
+  <br>
+  This page visualizes uploaded summary JSON files.
+</footer>
+
+<script>
+/*
+  Expected repo structure:
+
+  /reports/index.json
+
+  {
+    "PC-A": [
+      "reports/PC-A/run-20260410.json",
+      "reports/PC-A/run-20260412.json"
+    ],
+    "PC-B": [
+      "reports/PC-B/run-20260411.json"
+    ]
+  }
+*/
+
+async function loadReports() {
+  const container = document.getElementById("report-container");
+  container.innerHTML = "Loading reports…";
+
+  try {
+    const index = await fetch("./reports/index.json").then(r => r.json());
+    container.innerHTML = "";
+
+    for (const machine of Object.keys(index)) {
+      const machineCard = document.createElement("div");
+      machineCard.className = "card machine-card";
+
+      const title = document.createElement("h2");
+      title.textContent = machine;
+      machineCard.appendChild(title);
+
+      for (const path of index[machine]) {
+        const run = await fetch(path).then(r => r.json());
+
+        const row = document.createElement("div");
+        row.className = "run-row";
+
+        const date = new Date(run.StartTime).toLocaleString();
+        const statusClass = run.Status === "Success"
+          ? "status-success"
+          : "status-failed";
+
+        row.innerHTML = `
+          <span>${date}</span>
+          <span>${run.Profile}</span>
+          <span class="${statusClass}">
+            ${run.Status === "Success" ? "✅" : "❌"}
+          </span>
+        `;
+
+        const details = document.createElement("div");
+        details.className = "run-details";
+
+        run.Apps.forEach(app => {
+          let icon = "✅";
+          if (app.Result === "Skipped") icon = "⚠️";
+          if (app.Result === "Failed")  icon = "❌";
+
+          const line = document.createElement("div");
+          line.className = "app-result";
+          line.innerHTML = `
+            <span>${app.Name}</span>
+            <span>${icon} ${app.Result}</span>
+          `;
+          details.appendChild(line);
+        });
+
+        row.onclick = () => {
+          details.classList.toggle("active");
+        };
+
+        machineCard.appendChild(row);
+        machineCard.appendChild(details);
+      }
+
+      container.appendChild(machineCard);
+    }
+  }
+  catch (err) {
+    container.innerHTML = `
+      <div class="card">
+        Failed to load reports. Ensure <code>reports/index.json</code> exists.
+      </div>
+    `;
+  }
+}
+
+loadReports();
+</script>
+
+</body>
+</html>

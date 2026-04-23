@@ -40,6 +40,8 @@ if (-not $Profile) {
     $Profile = "standard"
 }
 
+$env:INSTALLER_UPLOAD = "true"
+
 Write-Host "Installer Hub bootstrap starting..." -ForegroundColor Cyan
 Write-Host "Selected profile: $Profile" -ForegroundColor Green
 

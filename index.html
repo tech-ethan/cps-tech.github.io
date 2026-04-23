@@ -58,73 +58,17 @@
       border-radius: 14px;
       padding: 20px;
       box-shadow: 0 10px 30px rgba(0,0,0,0.4);
-      transition: transform 0.15s ease, box-shadow 0.15s ease;
-    }
-
-    .card:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 14px 40px rgba(0,0,0,0.6);
     }
 
     .card-header {
       display: flex;
       align-items: center;
       gap: 14px;
-      margin-bottom: 14px;
     }
 
     .card-header img {
       width: 40px;
       height: 40px;
-    }
-
-    .card h2 {
-      font-size: 1.1rem;
-      margin: 0;
-    }
-
-    .card p {
-      font-size: 0.9rem;
-      color: var(--muted);
-      margin-bottom: 16px;
-    }
-
-    .profile-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-      gap: 14px;
-      margin-top: 12px;
-    }
-
-    .profile-app-card {
-      background: #020617;
-      border-radius: 12px;
-      padding: 14px;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    .profile-app-header {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .profile-app-header img {
-      width: 32px;
-      height: 32px;
-    }
-
-    .profile-app-title {
-      font-size: 0.9rem;
-      font-weight: 600;
-    }
-
-    .profile-app-desc {
-      font-size: 0.75rem;
-      color: var(--muted);
-      line-height: 1.2;
     }
 
     .actions {
@@ -140,335 +84,349 @@
       font-size: 0.85rem;
       border: none;
       cursor: pointer;
-      text-decoration: none;
     }
 
-    .download {
-      background: var(--accent);
-      color: white;
+    .download { background: var(--accent); color: white; }
+    .copy { background: #1f2937; color: white; }
+
+    /* -------- PROFILE CARD (COLLAPSIBLE) -------- */
+
+    .profile-card {
+      background: #030820;
+      margin-top: 16px;
+      border-radius: 14px;
+      padding: 20px;
+      overflow: hidden;
+
+      max-height: 0;
+      opacity: 0;
+      transform: translateY(-8px);
+
+      transition:
+        max-height 0.45s ease,
+        opacity 0.3s ease,
+        transform 0.3s ease;
     }
 
-    .download:hover {
-      background: #2563eb;
+    .profile-card.expanded {
+      max-height: 3000px;
+      opacity: 1;
+      transform: translateY(0);
     }
 
-    .copy {
-      background: #1f2937;
-      color: var(--text);
+    .profile-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 14px;
+      margin-top: 12px;
+    }
+
+    .profile-app-card {
+      background: #020617;
+      border-radius: 12px;
+      padding: 14px;
+    }
+
+    .profile-app-header {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .profile-app-header img {
+      width: 32px;
+      height: 32px;
+    }
+
+    .profile-app-desc {
+      font-size: 0.75rem;
+      color: var(--muted);
+      margin-top: 6px;
     }
 
     .badge {
       display: inline-block;
-      padding: 6px 10px;
-      margin-right: 6px;
-      margin-top: 6px;
+      padding: 4px 10px;
       border-radius: 999px;
-      font-size: 0.75rem;
-      font-weight: 600;
+      font-size: 0.7rem;
+      font-weight: 700;
       color: white;
     }
 
-    .installer-badge {
-  display: inline-block;
-  padding: 4px 10px;
-  border-radius: 999px;
-  font-size: 0.7rem;
-  font-weight: 700;
-  letter-spacing: 0.04em;
-  color: white;
-}
-
-    .badge-exe {
-      background-color: #3b82f6;
-    }
-
-    .badge-msi {
-      background-color: #a855f7;
-    }
-
-    .badge-zip {
-      background-color: #22c55e;
-    }
-
-    .badge-winget {
-      background-color: #64748b;
-    }
-
-    .app-list {
-      margin-top: 8px;
-      padding-left: 18px;
-      font-size: 0.9rem;
-    }
-
-    .app-list li {
-      margin-bottom: 6px;
-    }
+    .badge-exe { background: #3b82f6; }
+    .badge-msi { background: #a855f7; }
+    .badge-zip { background: #22c55e; }
 
     pre {
       background: #020617;
-      padding: 12px;
       border-radius: 10px;
+      padding: 12px;
       font-size: 0.85rem;
-      overflow-x: auto;
       margin-top: 16px;
-      margin-bottom: 12px;
     }
 
-    footer {
-      margin-top: 40px;
+    /* -------- TOAST -------- */
+
+    .toast {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #020617;
+      color: #e5e7eb;
+      padding: 12px 16px;
+      border-radius: 10px;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity 0.25s ease, transform 0.25s ease;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 28px;
+    }
+
+    .nav-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--text);
+      opacity: 0.9;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 16px;
+    }
+
+    .nav-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-weight: 600;
+      padding-bottom: 4px;
+      border-bottom: 2px solid transparent;
+      transition: color 0.2s ease, border-color 0.2s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--text);
+    }
+
+    .nav-links a.active {
+      color: var(--accent);
+      border-bottom-color: var(--accent);
+    }
+
+    .breadcrumbs {
       font-size: 0.8rem;
       color: var(--muted);
+      margin-bottom: 24px;
     }
+
+    .breadcrumbs a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
   </style>
 </head>
 
 <body>
 
+<nav class="nav">
+  <div class="nav-left">
+    <span class="nav-title">Installer Hub</span>
+  </div>
+
+  <div class="nav-links">
+    <a href="index.html" data-page="index">Profiles</a>
+    <a href="apps.html" data-page="apps">Application Library</a>
+    <a href="reports.html" data-page="reports">Reports & Logs</a>
+  </div>
+</nav>
+
+<div class="breadcrumbs">
+  <a href="index.html">Installer Hub</a> › <span>Profiles</span>
+</div>
+
+<div id="toast" class="toast">
+  <span id="toast-icon">✅</span>
+  <span id="toast-text">Copied</span>
+</div>
+
 <h1>Installer Hub</h1>
 <p class="subtitle">Centralized, profile‑driven workstation deployments</p>
 
-<!-- PROFILE CARD -->
-<div class="card" style="margin-bottom:24px;">
+<div class="card">
   <h2>Quick Setup Profiles</h2>
   <p>Select a setup type for this machine</p>
 
   <div class="actions" id="profile-buttons"></div>
 
-  <div style="margin-top:16px;">
-    <h3 id="profile-title">Select a profile</h3>
+  <div id="profile-card" class="profile-card">
+    <h3 id="profile-title"></h3>
     <p id="profile-desc" class="subtitle"></p>
     <div id="profile-badges"></div>
-  </div>
 
-  <div style="margin-top:16px;">
-  <h4>What gets installed</h4>
-  <div id="profile-apps" class="profile-grid">
-    <p class="subtitle">Select a profile to view installed applications</p>
+    <h4 style="margin-top:16px">What gets installed</h4>
+    <div id="profile-apps" class="profile-grid"></div>
+
+    <pre id="ps-command"></pre>
+    <button class="copy" onclick="copyCommand()">Copy PowerShell Command</button>
   </div>
 </div>
-
-  <pre id="ps-command">Select a profile above</pre>
-  <button class="copy" onclick="copyCommand()">Copy PowerShell Command</button>
-</div>
-
-<!-- APP LIBRARY -->
-<h2>Application Library</h2>
-<input class="search" id="search" placeholder="Search installers…" onkeyup="filterCards()">
-<div class="grid" id="app-grid"></div>
-
-<footer>
-  Internal installer repository · Hosted on GitHub Pages
-</footer>
 
 <script>
 let apps = {};
 let profiles = {};
 let selectedProfile = null;
 
-async function loadData() {
-  apps = await fetch("./apps.json").then(r => r.json());
-  profiles = await fetch("./profiles.json").then(r => r.json());
-
+fetch("./apps.json").then(r => r.json()).then(j => apps = j);
+fetch("./profiles.json").then(r => r.json()).then(j => {
+  profiles = j;
   renderProfiles();
-  renderApps();
-}
+});
 
 function renderProfiles() {
-  const container = document.getElementById("profile-buttons");
-    container.innerHTML = "";
-  
-    if (!profiles || Object.keys(profiles).length === 0) {
-      container.innerHTML = "<p style='color:#f87171'>No profiles loaded.</p>";
-      return;
-    }
-  
-    Object.keys(profiles).forEach(key => {
-      const profile = profiles[key];
-      if (!profile.name) return;
-  
-      const btn = document.createElement("button");
-      btn.className = "download";
-      btn.innerText = profile.name;
-      btn.onclick = () => setProfile(key);
-      container.appendChild(btn);
+  const wrap = document.getElementById("profile-buttons");
+  Object.keys(profiles).forEach(k => {
+    const b = document.createElement("button");
+    b.className = "download";
+    b.innerText = profiles[k].name;
+    b.onclick = () => toggleProfile(k);
+    wrap.appendChild(b);
   });
+}
+
+function toggleProfile(key) {
+  const card = document.getElementById("profile-card");
+
+  if (selectedProfile === key && card.classList.contains("expanded")) {
+    card.classList.remove("expanded");
+    selectedProfile = null;
+    return;
+  }
+
+  selectedProfile = key;
+  setProfile(key);
+  card.classList.add("expanded");
+
+  card.scrollIntoView({ behavior: "smooth", block: "nearest" });
 }
 
 function setProfile(key) {
   const p = profiles[key];
-  selectedProfile = key;
 
   document.getElementById("profile-title").innerText = p.name;
   document.getElementById("profile-desc").innerText = p.description;
 
-  const badgeContainer = document.getElementById("profile-badges");
-  badgeContainer.innerHTML = "";
-  p.badges.forEach(b => {
-    const span = document.createElement("span");
-    span.className = "badge";
-    span.style.background = p.color;
-    span.innerText = b;
-    badgeContainer.appendChild(span);
+  const appsBox = document.getElementById("profile-apps");
+  appsBox.innerHTML = "";
+
+  p.apps.forEach(id => {
+    const a = apps[id];
+    if (!a) return;
+
+    const c = document.createElement("div");
+    c.className = "profile-app-card";
+
+    const h = document.createElement("div");
+    h.className = "profile-app-header";
+
+    const img = document.createElement("img");
+    img.src = a.icon;
+    h.appendChild(img);
+
+    const t = document.createElement("div");
+    t.textContent = a.name;
+    h.appendChild(t);
+
+    const badge = document.createElement("span");
+    badge.className = `badge badge-${a.installer.type}`;
+    badge.textContent = a.installer.type.toUpperCase();
+    h.appendChild(badge);
+
+    c.appendChild(h);
+
+    const d = document.createElement("div");
+    d.className = "profile-app-desc";
+    d.textContent = a.description;
+    c.appendChild(d);
+
+    appsBox.appendChild(c);
   });
 
-  const appContainer = document.getElementById("profile-apps");
-appContainer.innerHTML = "";
-
-p.apps.forEach(appId => {
-  const app = apps[appId];
-  if (!app || !app.installer) return;
-
-  const card = document.createElement("div");
-  card.className = "profile-app-card";
-
-  const header = document.createElement("div");
-  header.className = "profile-app-header";
-
-  const img = document.createElement("img");
-  img.src = app.icon || "";
-  header.appendChild(img);
-
-  const titleWrapper = document.createElement("div");
-
-  const title = document.createElement("div");
-  title.className = "profile-app-title";
-  title.innerText = app.name;
-  titleWrapper.appendChild(title);
-
-  if (app.installer.type) {
-    const badge = createInstallerBadge(app.installer.type);
-    badge.style.marginTop = "4px";
-    titleWrapper.appendChild(badge);
-  }
-
-  header.appendChild(titleWrapper);
-
-  const desc = document.createElement("div");
-  desc.className = "profile-app-desc";
-  desc.innerText = app.description || "";
-
-  card.appendChild(header);
-  card.appendChild(desc);
-
-  appContainer.appendChild(card);
-});
-
   document.getElementById("ps-command").innerText =
-    '$env:INSTALLER_PROFILE="' + key + '"; ' +
-    'iwr https://tech-ethan.github.io/cps-tech.github.io/bootstrap.ps1 -useb | iex';
-}
-
-function createInstallerBadge(type) {
-  const badge = document.createElement("span");
-  badge.classList.add("installer-badge");
-
-  const t = type.toLowerCase();
-  badge.innerText = t.toUpperCase();
-
-  switch (t) {
-    case "exe":
-      badge.classList.add("badge-exe");
-      break;
-    case "msi":
-      badge.classList.add("badge-msi");
-      break;
-    case "zip":
-      badge.classList.add("badge-zip");
-      break;
-    case "winget":
-      badge.classList.add("badge-winget");
-      break;
-    default:
-      badge.style.backgroundColor = "#6b7280"; // neutral
-  }
-
-  return badge;
+    `$env:INSTALLER_PROFILE="${key}"; iwr https://tech-ethan.github.io/cps-tech.github.io/bootstrap.ps1 -useb | iex`;
 }
 
 function renderApps() {
   const grid = document.getElementById("app-grid");
-  grid.innerHTML = "";
-
-  if (!apps || Object.keys(apps).length === 0) {
-    grid.innerHTML = "<p style='color:#f87171'>No apps loaded.</p>";
-    return;
-  }
-
-  Object.values(apps).forEach(app => {
-    if (!app.installer || !app.installer.url) {
-      console.warn("App missing installer data:", app);
-      return;
-    }
-
-    const card = document.createElement("div");
-    card.className = "card";
-
-    const header = document.createElement("div");
-    header.className = "card-header";
-
-    const img = document.createElement("img");
-    img.src = app.icon || "";
-    header.appendChild(img);
-
-    const titleWrapper = document.createElement("div");
-    
-    titleWrapper.style.display = "flex";
-    titleWrapper.style.alignItems = "center";
-    titleWrapper.style.gap = "8px";
-
-    const title = document.createElement("h2");
-    title.innerText = app.name;
-
-    titleWrapper.appendChild(title);
-
-    if (app.installer && app.installer.type) {
-      const badge = createInstallerBadge(app.installer.type);
-      titleWrapper.appendChild(badge);
-    }
-
-header.appendChild(titleWrapper);
-
-    const desc = document.createElement("p");
-    desc.innerText = app.description || "";
-
-    const actions = document.createElement("div");
-    actions.className = "actions";
-
-    const download = document.createElement("a");
-    download.className = "download";
-    download.href = app.installer.url;
-    download.innerText = "Download";
-
-    const copyBtn = document.createElement("button");
-    copyBtn.className = "copy";
-    copyBtn.innerText = "Copy URL";
-    copyBtn.onclick = () => navigator.clipboard.writeText(app.installer.url);
-
-    actions.appendChild(download);
-    actions.appendChild(copyBtn);
-
-    card.appendChild(header);
-    card.appendChild(desc);
-    card.appendChild(actions);
-
-    grid.appendChild(card);
+  Object.values(apps).forEach(a => {
+    const c = document.createElement("div");
+    c.className = "card";
+    c.innerHTML = `
+      <div class="card-header">
+        <img src}
+        <h2>${a.name}</h2>
+      </div>
+      <p>${a.description}</p>
+      <a class="download" href="${a.url}" target="_blank">Download</a>
+    `;
+    grid.appendChild(c);
   });
 }
+renderApps();
 
-function filterCards() {
-  const q = document.getElementById("search").value.toLowerCase();
-  document.querySelectorAll("#app-grid .card").forEach(card => {
-    card.style.display = card.innerText.toLowerCase().includes(q) ? "block" : "none";
+function filterCards(q) {
+  document.querySelectorAll("#app-grid .card").forEach(c => {
+    c.style.display = c.innerText.toLowerCase().includes(q.toLowerCase())
+      ? "block" : "none";
   });
 }
 
 function copyCommand() {
   navigator.clipboard.writeText(
     document.getElementById("ps-command").innerText
-  );
+  ).then(() => showToast("PowerShell command copied", "📋"));
 }
 
-loadData();
+function showToast(text, icon) {
+  document.getElementById("toast-text").innerText = text;
+  document.getElementById("toast-icon").innerText = icon;
+  const t = document.getElementById("toast");
+  t.classList.add("show");
+  setTimeout(() => t.classList.remove("show"), 2000);
+}
+
+document.addEventListener("keydown", e => {
+  if (e.key === "Escape") {
+    document.getElementById("profile-card").classList.remove("expanded");
+    selectedProfile = null;
+  }
+});
+
+(function highlightActiveNav() {
+  const page = location.pathname.split("/").pop() || "index.html";
+
+  document.querySelectorAll(".nav-links a").forEach(link => {
+    if (
+      (page === "index.html" && link.dataset.page === "index") ||
+      (page === "apps.html" && link.dataset.page === "apps")
+    ) {
+      link.classList.add("active");
+    }
+  });
+})();
 </script>
 
 </body>

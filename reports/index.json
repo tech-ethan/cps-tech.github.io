@@ -1,0 +1,9 @@
+{
+  "PC-A": [
+    "reports/PC-A/run-20260410.json",
+    "reports/PC-A/run-20260412.json"
+  ],
+  "PC-B": [
+    "reports/PC-B/run-20260411.json"
+  ]
+}
