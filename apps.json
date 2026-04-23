@@ -4,10 +4,13 @@
     "description": "Enterprise web browser",
     "icon": "https://www.google.com/chrome/static/images/chrome-logo-m100.svg",
     "installer": {
-      "type": "exe",
-      "url": "https://dl.google.com/update2/installers/ChromeSetup.exe",
-      "silentArgs": "/silent /install",
-      "innerInstaller": "exe"
+      "type": "winget",
+      "id": "Google.Chrome",
+      "fallback": {
+        "type": "exe",
+        "url": "https://dl.google.com/d1/chrome/install/ChromeSetup.exe",
+        "silentArgs": "/silent /install"
+      }
     }
   },
   "drive": {

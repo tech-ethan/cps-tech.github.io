@@ -26,6 +26,11 @@ Install-App -Name "Mozilla FireFox" -Installer @{
     innerInstaller = "exe"
 }
 
+Install-App -Name "Google Chrome" -Installer @{
+    type = "winget"
+    id = "Google.Chrome"
+}
+
 # ------------------------------------------------------------
 # Finalize summary + write report JSON
 # ------------------------------------------------------------

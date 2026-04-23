@@ -136,9 +136,55 @@ function Install-App {
                 }
             }
 
+            "winget" {
+                Write-Host "Installing $Name (winget)..." -ForegroundColor Green
+
+                $wingetCmd = Get-Command winget -ErrorAction SilentlyContinue
+                if (-not $wingetCmd) {
+                    Write-Warning "winget not available for $Name"
+                    throw "winget missing"
+                }
+
+                try {
+                    $args = @(
+                        "install",
+                        "--id", $Installer.id,
+                        "--silent",
+                        "--accept-package-agreements",
+                        "--accept-source-agreements",
+                        "--scope", "machine"
+                    )
+
+                    Start-Process `
+                        -FilePath $wingetCmd.Source `
+                        -ArgumentList $args `
+                        -Wait `
+                        -NoNewWindow
+
+                    Write-Host "$Name installed successfully via winget." -ForegroundColor Green
+                }
+                catch {
+                    Write-Warning "winget install failed for $Name. Attempting fallback..."
+
+                    if (-not $Installer.fallback) {
+                        throw "winget failed and no fallback defined"
+                    }
+
+                    # ------------------------------
+                    # FALLBACK INSTALLER
+                    # ------------------------------
+                    $fallback = $Installer.fallback
+
+                    Write-Host "Using fallback installer for $Name ($($fallback.type))..." -ForegroundColor Cyan
+
+                    # Recurse into Install-App with fallback installer
+                    Install-App -Name $Name -Installer $fallback
+                    return
+                }
+            }
             default {
                 throw "Unknown installer type '$($Installer.type)' for $Name"
-            }
+                }
         }
 
         # ------------------------------

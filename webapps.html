@@ -36,136 +36,8 @@
       margin-bottom: 24px;
     }
 
-    nav {
-      margin-bottom: 24px;
-    }
+    /* ---------------- Navigation ---------------- */
 
-    nav a {
-      color: var(--accent);
-      text-decoration: none;
-      font-weight: 600;
-      margin-right: 16px;
-    }
-
-    input.search {
-      width: 100%;
-      padding: 12px 14px;
-      margin-bottom: 24px;
-      border-radius: 10px;
-      border: none;
-      background: var(--card);
-      color: var(--text);
-      font-size: 1rem;
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-      gap: 20px;
-    }
-
-    .card {
-      background: var(--card);
-      border-radius: 14px;
-      padding: 20px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
-    }
-
-    .card-header {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      margin-bottom: 12px;
-    }
-
-    .card-header img {
-      width: 40px;
-      height: 40px;
-    }
-
-    .card-header h2 {
-      font-size: 1.05rem;
-      margin: 0;
-    }
-
-    .card p {
-      font-size: 0.9rem;
-      color: var(--muted);
-      margin-bottom: 14px;
-    }
-
-    .actions {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-
-    .download,
-    .copy {
-      padding: 10px 14px;
-      border-radius: 8px;
-      font-weight: 600;
-      font-size: 0.85rem;
-      border: none;
-      cursor: pointer;
-      text-decoration: none;
-    }
-
-    .download {
-      background: var(--accent);
-      color: white;
-    }
-
-    .copy {
-      background: #1f2937;
-      color: var(--text);
-    }
-
-    /* Installer badges */
-    .installer-badge {
-      padding: 4px 10px;
-      border-radius: 999px;
-      font-size: 0.7rem;
-      font-weight: 700;
-      color: white;
-      margin-left: auto;
-    }
-
-    .badge-exe { background: #3b82f6; }
-    .badge-msi { background: #a855f7; }
-    .badge-zip { background: #22c55e; }
-    .badge-winget { background: #64748b; }
-
-    /* Toast */
-    .toast {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      background: #020617;
-      color: #e5e7eb;
-      padding: 12px 16px;
-      border-radius: 10px;
-      display: flex;
-      gap: 10px;
-      align-items: center;
-      opacity: 0;
-      transform: translateY(10px);
-      transition: opacity 0.25s ease, transform 0.25s ease;
-      z-index: 9999;
-    }
-
-    .toast.show {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    footer {
-      margin-top: 40px;
-      font-size: 0.8rem;
-      color: var(--muted);
-    }
-
-    /* Navigation bar */
     .nav {
       display: flex;
       align-items: center;
@@ -213,65 +85,206 @@
       color: var(--accent);
       text-decoration: none;
     }
+
+    /* ---------------- Search ---------------- */
+
+    input.search {
+      width: 100%;
+      padding: 12px 14px;
+      margin-bottom: 24px;
+      border-radius: 10px;
+      border: none;
+      background: var(--card);
+      color: var(--text);
+      font-size: 1rem;
+    }
+
+    /* ---------------- Grid & Cards ---------------- */
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 20px;
+    }
+
+    .card {
+      background: var(--card);
+      border-radius: 14px;
+      padding: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .card-header img {
+      width: 40px;
+      height: 40px;
+    }
+
+    .card-header h2 {
+      font-size: 1.05rem;
+      margin: 0;
+    }
+
+    .card p {
+      font-size: 0.9rem;
+      color: var(--muted);
+      margin-bottom: 14px;
+    }
+
+    .actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    /* ---------------- Buttons ---------------- */
+
+    .download,
+    .copy {
+      padding: 10px 14px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.85rem;
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    .download {
+      background: var(--accent);
+      color: white;
+    }
+
+    .copy {
+      background: #1f2937;
+      color: var(--text);
+    }
+
+    /* ---------------- Usage Badges ---------------- */
+
+    .usage-badge {
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      color: white;
+      margin-left: auto;
+    }
+
+    .usage-subs       { background: #3b82f6; }
+    .usage-paras      { background: #a855f7; }
+    .usage-tech       { background: #22c55e; }
+    .usage-district   { background: #64748b; }
+    .usage-custodial  { background: #b5f63b; color: #020617; }
+    .usage-library    { background: #d73bf6; }
+    .usage-classified { background: #f68f3b; }
+    .usage-theatre    { background: #0f4fb8; }
+    .usage-teachers   { background: #7306a5; }
+
+    /* ---------------- Toast ---------------- */
+
+    .toast {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #020617;
+      color: #e5e7eb;
+      padding: 12px 16px;
+      border-radius: 10px;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity 0.25s ease, transform 0.25s ease;
+      z-index: 9999;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    footer {
+      margin-top: 40px;
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
   </style>
 </head>
 
 <body>
 
-<nav class="nav">
-  <div class="nav-left">
-    <span class="nav-title">Installer Hub</span>
+  <!-- Navigation -->
+  <nav class="nav">
+    <div class="nav-left">
+      <span class="nav-title">Installer Hub</span>
+    </div>
+
+    <div class="nav-links">
+      <a href="index.html" data-page="index">Profiles</a>
+      <a href="apps.html" data-page="apps">Apps</a>
+      <a href="reports.html" class="reports">Reports</a>
+      <a href="webapps.html" data-page="webapps">Webapp Library</a>
+    </div>
+  </nav>
+
+  <!-- Breadcrumbs -->
+  <div class="breadcrumbs">
+    <a href="Installer Hub">Installer Hub</a><span>Webapp Library</span>
   </div>
 
-  <div class="nav-links">
-    <a href="index.html" data-page="index">Profiles</a>
-    <a href="apps.html" data-page="apps">Application Library</a>
-    <a href="reports.html" data-page="reports">Reports & Logs</a>
-    <a href="reports.html" data-page="reports">Webapp Library</a>
+  <!-- Toast -->
+  <div id="toast" class="toast">
+    <span id="toast-icon">📋</span>
+    <span id="toast-text">Copied</span>
   </div>
-</nav>
 
-<div class="breadcrumbs">
-  <a href="index.html">Installer Hub</a> › <span>Webapp Library</span>
-</div>
+  <!-- Page Header -->
+  <h1>Webapp Library</h1>
+  <p class="subtitle">Browse, search, and copy webapp links</p>
 
-<div id="toast" class="toast">
-  <span id="toast-icon">📋</span>
-  <span id="toast-text">Copied</span>
-</div>
+  <!-- Search -->
+  <input
+    class="search"
+    type="search"
+    placeholder="Search web applications…"
+    oninput="filterApps(this.value)"
+  >
 
-<h1>Webapp Library</h1>
-<p class="subtitle">Browse, Search, and Copy Webapp Links</p>
+  <!-- Webapp Grid -->
+  <div class="grid" id="webapp-grid"></div>
 
-<input
-  class="search"
-  type="search"
-  placeholder="Search applications…"
-  oninput="filterApps(this.value)"
->
-
-<div class="grid" id="app-grid"></div>
 
 <footer>
   Internal installer repository · Hosted on GitHub Pages
 </footer>
 
 <script>
-let apps = {};
+let webapps = {};
 
-async function loadApps() {
-  const resp = await fetch("./webapps.json");
-  apps = await resp.json();
-  renderApps();
+async function loadWebApps() {
+  try {
+    const resp = await fetch("./webapps.json");
+    webapps = await resp.json();
+    renderWebApps();
+  }
+  catch (err) {
+    console.error("Failed to load webapps.json", err);
+  }
 }
 
-function renderApps() {
-  const grid = document.getElementById("app-grid");
+function renderWebApps() {
+  const grid = document.getElementById("webapp-grid");
   grid.innerHTML = "";
 
-  Object.values(apps).forEach(app => {
-    if (!app.installer || !app.installer.url) return;
-
+  Object.values(webapps).forEach(webapp => {
     const card = document.createElement("div");
     card.className = "card";
 
@@ -279,42 +292,45 @@ function renderApps() {
     header.className = "card-header";
 
     const img = document.createElement("img");
-    img.src = app.icon || "";
+    img.src = webapp.icon || "";
     header.appendChild(img);
 
     const title = document.createElement("h2");
-    title.innerText = app.name;
+    title.innerText = webapp.name;
     header.appendChild(title);
 
-    const badge = document.createElement("span");
-    const type = app.installer.type.toLowerCase();
-    badge.className = "installer-badge badge-" + type;
-    badge.innerText = type.toUpperCase();
-    header.appendChild(badge);
+    if (webapp.usage) {
+      const usage = document.createElement("span");
+      usage.className = `usage-badge usage-${webapp.usage.toLowerCase()}`;
+      usage.innerText = webapp.usage.toUpperCase();
+      header.appendChild(usage);
+    }
 
     card.appendChild(header);
 
     const desc = document.createElement("p");
-    desc.innerText = app.description || "";
+    desc.innerText = webapp.description || "";
     card.appendChild(desc);
 
     const actions = document.createElement("div");
     actions.className = "actions";
 
-    const download = document.createElement("a");
-    download.className = "download";
-    download.href = app.installer.url;
-    download.innerText = "Download";
+    const link = document.createElement("a");
+    link.className = "download";
+    link.href = webapp.link;
+    link.target = "_blank";
+    link.rel = "noopener";
+    link.innerText = "Open";
 
     const copyBtn = document.createElement("button");
     copyBtn.className = "copy";
-    copyBtn.innerText = "Copy URL";
+    copyBtn.innerText = "Copy Link";
     copyBtn.onclick = () => {
-      navigator.clipboard.writeText(app.installer.link);
-      showToast("Webapp Link Copied", "📎");
+      navigator.clipboard.writeText(webapp.link);
+      showToast("Webapp link copied", "📎");
     };
 
-    actions.appendChild(download);
+    actions.appendChild(link);
     actions.appendChild(copyBtn);
     card.appendChild(actions);
 
@@ -324,7 +340,7 @@ function renderApps() {
 
 function filterApps(q) {
   q = q.toLowerCase();
-  document.querySelectorAll("#app-grid .card").forEach(card => {
+  document.querySelectorAll("#webapp-grid .card").forEach(card => {
     card.style.display = card.innerText.toLowerCase().includes(q)
       ? "block"
       : "none";
@@ -341,19 +357,16 @@ function showToast(text, icon) {
 
 (function highlightActiveNav() {
   const page = location.pathname.split("/").pop() || "index.html";
-
   document.querySelectorAll(".nav-links a").forEach(link => {
-    if (
-      (page === "index.html" && link.dataset.page === "index") ||
-      (page === "apps.html" && link.dataset.page === "apps")
-    ) {
+    if (page === "webapps.html" && link.dataset.page === "webapps") {
       link.classList.add("active");
     }
   });
 })();
 
-loadApps();
+loadWebApps();
 </script>
+
 
 </body>
 </html>
