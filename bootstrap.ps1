@@ -66,8 +66,8 @@ Invoke-RestMethod "$BaseUrl/setup-admin.ps1" `
 Invoke-RestMethod "$BaseUrl/setup-classroom.ps1" `
     -OutFile "$TempDir\setup-classroom.ps1"
 
-Invoke-RestMethod "$BaseUrl/setup-testing.ps1" `
-    -OutFile "$TempDir\setup-testing.ps1"
+Invoke-RestMethod "$BaseUrl/setup-test.ps1" `
+    -OutFile "$TempDir\setup-test.ps1"
 
 # --- Execute selected profile ---
 switch ($Profile.ToLower()) {
