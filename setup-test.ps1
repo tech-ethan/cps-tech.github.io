@@ -5,6 +5,7 @@
 # ==========================================
 
 Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned
+#Requires -RunAsAdministrator
 
 $logDir = "C:\SetupLogs"
 if (-not (Test-Path $logDir)) {
