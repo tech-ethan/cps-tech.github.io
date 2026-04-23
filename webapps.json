@@ -4,7 +4,7 @@
     "description": "Streamline & assign all work in one central platform",
     "icon": "https://operationshero.com/wp-content/uploads/2024/03/OperationsHERO-solutions-icons.webp",
     "link": "https://auth.operationshero.com/login",
-    "usage": "Custodial", "Theatre"
+    "usage": ["Custodial", "Theatre"]
     }
   },
   "iiq": {
@@ -12,7 +12,7 @@
     "description": "A specialized, cloud-based service management and asset management software platform built specifically for K-12 school districts",
     "icon": "https://www.incidentiq.com/wp-content/uploads/2022/08/company-our-mission.png",
     "link": "https://csd.incidentiq.com/",
-    "usage": "District"
+    "usage": ["District"]
     }
   },
   "frontline": {
@@ -20,7 +20,7 @@
     "description": "A comprehensive, cloud-based school administration software suite designed specifically for K-12 districts",
     "icon": "https://play-lh.googleusercontent.com/kA96CEwWc2MRmGVabKwNxjMRbuOCfpV3utOyNQn8E9mZaby6S0uQTCM5MGxO6XTG4DY",
     "link": "https://login.frontlineeducation.com/",
-    "usage": "Classified","Substitutes","Paras"
+    "usage": ["Classified","Substitutes","Paras"]
     }
   },
   "assetform": {
@@ -28,7 +28,7 @@
     "description": "A Google Form developed for Asset Inventory Management",
     "icon": "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource211/v4/6a/9b/79/6a9b79ed-d73c-2a2e-63b7-ae3bb4be6962/Placeholder.mill/200x200bb-75.webp",
     "link": "https://docs.google.com/forms/d/e/1FAIpQLSfFkh46kaICGf46MTKG43mVvvUeQqcVSoEZO2-RQ1pvoQHkvA/viewform",
-    "usage": "Technology"
+    "usage": ["Technology"]
     }
   },
   "digitalform": {
@@ -36,7 +36,7 @@
     "description": "A Google Form developed for crafting a list of Applications requested to be used within Classrooms that deal with Student Data residing from Student Google Accounts",
     "icon": "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource211/v4/6a/9b/79/6a9b79ed-d73c-2a2e-63b7-ae3bb4be6962/Placeholder.mill/200x200bb-75.webp",
     "link": "https://docs.google.com/forms/d/e/1FAIpQLSfHH-xYgsmdeRKAMB1xElX_6xfNpknXg8Ta3_VJIW6y5dVYtA/viewform",
-    "usage": "District"
+    "usage": ["District"]
     }
   }
 }
