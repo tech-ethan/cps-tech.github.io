@@ -11,7 +11,12 @@
   },
   "classroom": {
     "name": "Classroom Setup",
-    "badges": ["Classroom", "Testing"],
+    "badges": ["Classroom", "Exams"],
     "apps": ["chrome", "uniflow"]
+  },
+  "test": {
+    "name": "Testing Setup",
+    "badges": ["Testing"],
+    "apps": ["firefox"]
   }
 }

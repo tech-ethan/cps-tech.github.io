@@ -2,9 +2,33 @@
 # Installer Hub Bootstrap Script
 # =========================================
 
+
+# ================================
 # --- Security / compatibility ---
+# ================================
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
 Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass -Force
+
+
+# ================================
+# Prepare logging directory
+# ================================
+$LogDir = "C:\SetupLogs"
+
+if (-not (Test-Path $LogDir)) {
+    try {
+        New-Item -ItemType Directory -Path $LogDir -Force | Out-Null
+        Write-Host "Created log directory: $LogDir" -ForegroundColor Green
+    }
+    catch {
+        Write-Warning "Failed to create log directory: $LogDir"
+        Write-Warning $_
+    }
+}
+else {
+    Write-Host "Log directory already exists: $LogDir"
+}
+
 
 # --- Repo base URL (GitHub Pages root) ---
 $BaseUrl  = "https://tech-ethan.github.io/cps-tech.github.io"
@@ -40,6 +64,9 @@ Invoke-RestMethod "$BaseUrl/setup-admin.ps1" `
 Invoke-RestMethod "$BaseUrl/setup-classroom.ps1" `
     -OutFile "$TempDir\setup-classroom.ps1"
 
+Invoke-RestMethod "$BaseUrl/setup-testing.ps1" `
+    -OutFile "$TempDir\setup-testing.ps1"
+
 # --- Execute selected profile ---
 switch ($Profile.ToLower()) {
     "standard" {
@@ -50,6 +77,9 @@ switch ($Profile.ToLower()) {
     }
     "classroom" {
         powershell -ExecutionPolicy Bypass -File "$TempDir\setup-classroom.ps1"
+    }
+    "testing" {
+        powershell -ExecutionPolicy Bypass -File "$TempDir\setup-testing.ps1"
     }
     default {
         Write-Error "Unknown profile: $Profile"

@@ -3,10 +3,17 @@
 # Generated: 2026-04-21 22:02:24
 # ==========================================
 
+Assert-Administrator
+
+$logDir = "C:\SetupLogs"
+
+if (-not (Test-Path $logDir)) {
+    New-Item -ItemType Directory -Path $logDir -Force | Out-Null
+}
+
 Start-Transcript -Path "C:\SetupLogs\InstallerHub-admin.log" -Append
 
-. "C:\Users\numnu\Desktop\cps-tech.github.io-main\functions.ps1"
-Assert-Administrator
+. "https://tech-ethan.github.io/cps-tech.github.io/functions.ps1"
 
 Write-Host "Starting Admin Setup..." -ForegroundColor Cyan
 

@@ -30,7 +30,13 @@ foreach ($profile in $Profiles.PSObject.Properties) {
     $lines += "# Generated: $(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')"
     $lines += "# =========================================="
     $lines += ""
-    $lines += "Start-Transcript -Path `"C:\SetupLogs\InstallerHub-$profileKey.log`" -Append"
+    $lines += '$logDir = "C:\SetupLogs"'
+    $lines += 'if (-not (Test-Path $logDir)) {'
+    $lines += '    New-Item -ItemType Directory -Path $logDir -Force | Out-Null'
+    $lines += '}'
+    $lines += ''
+    $lines += "Start-Transcript -Path `"$logDir\InstallerHub-$profileKey.log`" -Append"
+    $lines += ''
     $lines += ""
     $lines += ". `"$PSScriptRoot\functions.ps1`""
     $lines += "Assert-Administrator"

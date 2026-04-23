@@ -47,7 +47,7 @@
     "uniflow": {
     "name": "UniFLOW SmartClient",
     "description": "UniFLOWs Printing Service",
-    "icon": "https://s7d1.scene7.com/is/image/canon/uniFLOW-Online-logo?fmt=webp-alpha&wid=800&hei=800",
+    "icon": "https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/a5/7b/8e/a57b8e28-e13a-1713-d7e9-e0fa2cb65cdc/AppIcon-1x_U007emarketing-0-10-0-85-220-0.png/200x200ia-75.webp",
     "installer": {
       "type": "msi",
       "url": "https://antibodysoftware-17031.kxcdn.com/files/wiztree_4_31_portable.zip",
@@ -91,12 +91,23 @@
     "vcast": {
     "name": "vCastSender",
     "description": "ViewSonic's Casting Application",
-    "icon": "https://play-lh.googleusercontent.com/vVBhp8xJxIDNXPv15ieriUwZswKvrxrUy-YkI0_WTM0gyftcILJUMEx7j6jTfS-ZYA=w600-h300-pc0xffffff-pd",
+    "icon": "https://img.informer.com/icons_mac/png/128/537/537401.png",
     "installer": {
       "type": "zip",
       "url": "https://www.viewsonicglobal.com/public/products_download/software/cd/vCastSender_for_Windows.zip?pass",
       "silentArgs": "/qn /norestar",
       "innerInstaller": "msi"
+    }
+  },
+    "firefox": {
+    "name": "Mozilla FireFox",
+    "description": "Mozilla's Enterprise Web Browser",
+    "icon": "https://blog.mozilla.org/opendesign/files/2018/07/firefox-logo.png",
+    "installer": {
+      "type": "exe",
+      "url": "https://cdn.stubdownloader.services.mozilla.com/builds/firefox-stub/en-US/win/080893360a11b78abcbe5c5f2169892aa9eb14347d6138815333e479ced07801/Firefox%20Installer.exe",
+      "silentArgs": "/silent /install",
+      "innerInstaller": "exe"
     }
   }
 }

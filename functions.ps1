@@ -2,7 +2,7 @@
 # Installer Hub – Shared Functions
 # ================================
 
-Write-Host "FUNCTIONS VERSION: 2026-04-15 CLEAN BUILD" -ForegroundColor Magenta
+Write-Host "FUNCTIONS VERSION: 04.22.0.1" -ForegroundColor Magenta
 
 function Assert-Administrator {
     $identity  = [Security.Principal.WindowsIdentity]::GetCurrent()
