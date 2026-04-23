@@ -62,7 +62,7 @@ function Install-App {
         # Already installed → Skip
         # ------------------------------
         if (Is-Installed -DisplayName $Name) {
-            Write-Host "$Name already installed — skipping." -ForegroundColor Yellow
+            Write-Host "$Name already installed - skipping." -ForegroundColor Yellow
 
             $Script:InstallResults.Apps += @{
                 Name   = $Name
