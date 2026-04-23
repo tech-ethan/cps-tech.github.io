@@ -80,8 +80,8 @@ switch ($Profile.ToLower()) {
     "classroom" {
         powershell -ExecutionPolicy Bypass -File "$TempDir\setup-classroom.ps1"
     }
-    "testing" {
-        powershell -ExecutionPolicy Bypass -File "$TempDir\setup-testing.ps1"
+    "test" {
+        powershell -ExecutionPolicy Bypass -File "$TempDir\setup-test.ps1"
     }
     default {
         Write-Error "Unknown profile: $Profile"

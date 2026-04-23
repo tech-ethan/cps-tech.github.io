@@ -47,7 +47,7 @@ Write-Host "Summary report written to $reportPath" -ForegroundColor Green
 if ($env:INSTALLER_UPLOAD -eq "true") {
     try {
         Invoke-RestMethod
-            -Uri "https://script.google.com/a/macros/cps.k12.ar.us/s/AKfycbzmzgSuvE6eALABU700n5YNN1r4gCKmllCflkyH4GhkCJwPb0L89iuidQaUYVC9NMelpA/exec"
+            -Uri "https://script.google.com/macros/s/AKfycbzmzgSuvE6eALABU700n5YNN1r4gCKmllCflkyH4GhkCJwPb0L89iuidQaUYVC9NMelpA/exec"
             -Method POST
             -Body ($Script:InstallResults | ConvertTo-Json -Depth 5)
             -ContentType "application/json"
