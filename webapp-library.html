@@ -241,7 +241,7 @@
 </div>
 
 <h1>Webapp Library</h1>
-<p class="subtitle">Browse, search, and copy installer links</p>
+<p class="subtitle">Browse, Search, and Copy Webapp Links</p>
 
 <input
   class="search"
@@ -260,7 +260,7 @@
 let apps = {};
 
 async function loadApps() {
-  const resp = await fetch("./apps.json");
+  const resp = await fetch("./webapps.json");
   apps = await resp.json();
   renderApps();
 }
@@ -310,8 +310,8 @@ function renderApps() {
     copyBtn.className = "copy";
     copyBtn.innerText = "Copy URL";
     copyBtn.onclick = () => {
-      navigator.clipboard.writeText(app.installer.url);
-      showToast("Installer URL copied", "📎");
+      navigator.clipboard.writeText(app.installer.link);
+      showToast("Webapp Link Copied", "📎");
     };
 
     actions.appendChild(download);
