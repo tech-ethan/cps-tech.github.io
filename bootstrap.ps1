@@ -35,15 +35,15 @@ $BaseUrl  = "https://tech-ethan.github.io/cps-tech.github.io"
 $TempDir = "$env:TEMP\InstallerHub"
 
 # --- Determine profile ---
-$Profile = $env:INSTALLER_PROFILE
-if (-not $Profile) {
-    $Profile = "standard"
+$SelectedProfile = $env:INSTALLER_PROFILE
+if (-not $SelectedProfile) {
+    $SelectedProfile = "standard"
 }
 
 $env:INSTALLER_UPLOAD = "true"
 
 Write-Host "Installer Hub bootstrap starting..." -ForegroundColor Cyan
-Write-Host "Selected profile: $Profile" -ForegroundColor Green
+Write-Host "Selected profile: $SelectedProfile" -ForegroundColor Green
 
 # --- Prepare temp workspace ---
 if (Test-Path $TempDir) {
@@ -70,7 +70,7 @@ Invoke-RestMethod "$BaseUrl/setup-test.ps1" `
     -OutFile "$TempDir\setup-test.ps1"
 
 # --- Execute selected profile ---
-switch ($Profile.ToLower()) {
+switch ($UserProfile.ToLower()) {
     "standard" {
         powershell -ExecutionPolicy Bypass -File "$TempDir\setup-standard.ps1"
     }
@@ -84,7 +84,7 @@ switch ($Profile.ToLower()) {
         powershell -ExecutionPolicy Bypass -File "$TempDir\setup-test.ps1"
     }
     default {
-        Write-Error "Unknown profile: $Profile"
+        Write-Error "Unknown profile: $SelectedProfile"
         exit 1
     }
 }
