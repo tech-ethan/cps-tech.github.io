@@ -1,10 +1,10 @@
 ﻿# ==========================================
 # AUTO-GENERATED - DO NOT EDIT
 # Profile: Testing Setup
-# Generated: 2026-04-22 21:51:54
+# Generated: 2026-04-23 08:34:33
 # ==========================================
 
-Assert-Administrator
+Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned
 
 $logDir = "C:\SetupLogs"
 if (-not (Test-Path $logDir)) {
@@ -14,7 +14,6 @@ if (-not (Test-Path $logDir)) {
 Start-Transcript -Path "\InstallerHub-test.log" -Append
 
 . "$PSScriptRoot\functions.ps1"
-Assert-Administrator
 
 Write-Host "Starting Testing Setup..." -ForegroundColor Cyan
 
