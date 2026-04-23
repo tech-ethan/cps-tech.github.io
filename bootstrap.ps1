@@ -31,7 +31,7 @@ else {
 
 
 # --- Repo base URL (GitHub Pages root) ---
-$BaseUrl  = "https://tech-ethan.github.io/cps-tech.github.io"
+$BaseUrl = "https://tech-ethan.github.io/cps-tech.github.io"
 $TempDir = "$env:TEMP\InstallerHub"
 
 # --- Determine profile ---
@@ -70,7 +70,7 @@ Invoke-RestMethod "$BaseUrl/setup-test.ps1" `
     -OutFile "$TempDir\setup-test.ps1"
 
 # --- Execute selected profile ---
-switch ($UserProfile.ToLower()) {
+switch ($SelectedProfile.ToLower()) {
     "standard" {
         powershell -ExecutionPolicy Bypass -File "$TempDir\setup-standard.ps1"
     }
