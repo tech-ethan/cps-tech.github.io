@@ -4,7 +4,8 @@
 # Generated: 2026-04-22 21:51:54
 # ==========================================
 
-Assert-Administrator
+Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned
+#Requires -RunAsAdministrator
 
 $logDir = "C:\SetupLogs"
 if (-not (Test-Path $logDir)) {
@@ -14,7 +15,6 @@ if (-not (Test-Path $logDir)) {
 Start-Transcript -Path "\InstallerHub-standard.log" -Append
 
 . "$PSScriptRoot\functions.ps1"
-Assert-Administrator
 
 Write-Host "Starting Standard Setup..." -ForegroundColor Cyan
 
