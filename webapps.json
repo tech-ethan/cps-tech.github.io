@@ -18,7 +18,7 @@
     "description": "A comprehensive, cloud-based school administration software suite designed specifically for K-12 districts",
     "icon": "https://play-lh.googleusercontent.com/kA96CEwWc2MRmGVabKwNxjMRbuOCfpV3utOyNQn8E9mZaby6S0uQTCM5MGxO6XTG4DY",
     "link": "https://login.frontlineeducation.com/",
-    "usage": ["Classified","Substitutes","Paras"]
+    "usage": ["Classified"]
   },
   "assetform": {
     "name": "2025-2026 Technology Asset Control Form",
@@ -39,7 +39,7 @@
     "description": "Student information system",
     "icon": "https://www.powerschool.com/favicon.ico",
     "link": "https://powerschool.cps.k12.ar.us",
-    "usage": "district"
+    "usage": ["District"]
   }
 
 }

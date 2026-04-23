@@ -103,22 +103,31 @@
 
     .grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-      gap: 20px;
+      grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+      gap: 24px;
     }
 
     .card {
+      min-height: 240px;
       background: var(--card);
       border-radius: 14px;
       padding: 20px;
       box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+      display: flex;
+      flex-direction: column;
     }
 
     .card-header {
       display: flex;
-      align-items: center;
-      gap: 12px;
-      margin-bottom: 12px;
+      align-items: flex-start;
+      gap: 14px;
+    }
+
+    .card-header-content {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      flex: 1;
     }
 
     .card-header img {
@@ -127,14 +136,18 @@
     }
 
     .card-header h2 {
-      font-size: 1.05rem;
+      font-size: 1.15rem;
       margin: 0;
+      line-height: 1.3;
+      flex: 1 1 auto;
+      max-width: 100%;
     }
 
     .card p {
       font-size: 0.9rem;
       color: var(--muted);
       margin-bottom: 14px;
+      line-height: 1.4;
     }
 
     .actions {
@@ -145,7 +158,21 @@
 
     /* ---------------- Buttons ---------------- */
 
-    .download,
+    .link {
+      padding: 10px 14px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.85rem;
+      background: var(--accent);
+      color: white;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .link:hover {
+      background: #2563eb;
+    }
+
     .copy {
       padding: 10px 14px;
       border-radius: 8px;
@@ -154,11 +181,6 @@
       border: none;
       cursor: pointer;
       text-decoration: none;
-    }
-
-    .download {
-      background: var(--accent);
-      color: white;
     }
 
     .copy {
@@ -175,17 +197,20 @@
       font-weight: 700;
       color: white;
       margin-left: auto;
+      white-space: nowrap;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
     }
 
-    .usage-subs       { background: #3b82f6; }
-    .usage-paras      { background: #a855f7; }
-    .usage-tech       { background: #22c55e; }
-    .usage-district   { background: #64748b; }
-    .usage-custodial  { background: #b5f63b; color: #020617; }
-    .usage-library    { background: #d73bf6; }
-    .usage-classified { background: #f68f3b; }
-    .usage-theatre    { background: #0f4fb8; }
-    .usage-teachers   { background: #7306a5; }
+    .usage-substitutes/paras  { background: #3b82f6; }
+    .usage-technology         { background: #22c55e; }
+    .usage-district           { background: #64748b; }
+    .usage-custodial          { background: #b5f63b; color: #020617; }
+    .usage-library            { background: #d73bf6; }
+    .usage-classified         { background: #f68f3b; }
+    .usage-theatre            { background: #0f4fb8; }
+    .usage-teachers           { background: #7306a5; }
 
     /* ---------------- Toast ---------------- */
 
@@ -237,7 +262,7 @@
 
   <!-- Breadcrumbs -->
   <div class="breadcrumbs">
-    <a href="Installer Hub">Installer Hub</a><span>Webapp Library</span>
+    <a href="Installer Hub">Installer Hub</a> > <span>Webapp Library</span>
   </div>
 
   <!-- Toast -->
@@ -273,6 +298,7 @@ async function loadWebApps() {
   try {
     const resp = await fetch("./webapps.json");
     webapps = await resp.json();
+    console.log("Loaded webapps:", webapps);
     renderWebApps();
   }
   catch (err) {
@@ -284,7 +310,9 @@ function renderWebApps() {
   const grid = document.getElementById("webapp-grid");
   grid.innerHTML = "";
 
-  Object.values(webapps).forEach(webapp => {
+  (webapps instanceof Array ? webapps : Object.values(webapps))
+    .forEach(webapp => {
+
     const card = document.createElement("div");
     card.className = "card";
 
@@ -295,15 +323,38 @@ function renderWebApps() {
     img.src = webapp.icon || "";
     header.appendChild(img);
 
+    const content = document.createElement("div");
+    content.className = "card-header-content";
+    header.appendChild(content);
+
     const title = document.createElement("h2");
     title.innerText = webapp.name;
     header.appendChild(title);
 
+    // Container for usage badges
+    const badgeWrap = document.createElement("div");
+    badgeWrap.style.display = "flex";
+    badgeWrap.style.gap = "6px";
+    badgeWrap.style.flexWrap = "wrap";
+
+    header.appendChild(badgeWrap);
+
+
     if (webapp.usage) {
-      const usage = document.createElement("span");
-      usage.className = `usage-badge usage-${webapp.usage.toLowerCase()}`;
-      usage.innerText = webapp.usage.toUpperCase();
-      header.appendChild(usage);
+        const usages = Array.isArray(webapp.usage)
+        ? webapp.usage
+        : [webapp.usage];
+
+      usages.forEach(u => {
+        if (typeof u !== "string") return;
+
+        const usage = document.createElement("span");
+        usage.className = `usage-badge usage-${u.toLowerCase()}`;
+        usage.innerText = u.toUpperCase();
+
+        badgeWrap.appendChild(usage);
+        header.appendChild(usage);
+      });
     }
 
     card.appendChild(header);
@@ -315,12 +366,12 @@ function renderWebApps() {
     const actions = document.createElement("div");
     actions.className = "actions";
 
-    const link = document.createElement("a");
-    link.className = "download";
-    link.href = webapp.link;
-    link.target = "_blank";
-    link.rel = "noopener";
-    link.innerText = "Open";
+    const linkBtn = document.createElement("a");
+    linkBtn.className = "link";
+    linkBtn.href = webapp.link;
+    linkBtn.target = "_blank";
+    linkBtn.rel = "noopener";
+    linkBtn.innerText = "Open";
 
     const copyBtn = document.createElement("button");
     copyBtn.className = "copy";
@@ -330,10 +381,9 @@ function renderWebApps() {
       showToast("Webapp link copied", "📎");
     };
 
-    actions.appendChild(link);
+    actions.appendChild(linkBtn);
     actions.appendChild(copyBtn);
     card.appendChild(actions);
-
     grid.appendChild(card);
   });
 }
