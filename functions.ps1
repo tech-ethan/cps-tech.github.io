@@ -48,6 +48,7 @@ function Is-Installed {
     return $false
 }
 
+
 function Install-App {
     param (
         [Parameter(Mandatory)]
@@ -58,161 +59,128 @@ function Install-App {
     )
 
     try {
-        # ------------------------------
-        # Already installed → Skip
-        # ------------------------------
+        # Skip if already installed
         if (Is-Installed -DisplayName $Name) {
             Write-Host "$Name already installed - skipping." -ForegroundColor Yellow
-
             $Script:InstallResults.Apps += @{
                 Name   = $Name
                 Result = "Skipped"
             }
-
             return
         }
 
-        # ------------------------------
-        # Prepare temp workspace
-        # ------------------------------
         $tempRoot = Join-Path $env:TEMP "InstallerHub"
         New-Item -ItemType Directory -Force -Path $tempRoot | Out-Null
 
-        $fileName      = Split-Path $Installer.url -Leaf
-        $downloadPath  = Join-Path $tempRoot $fileName
-
-        # ------------------------------
-        # Download
-        # ------------------------------
-        Write-Host "Downloading $Name..." -ForegroundColor Cyan
-        Invoke-WebRequest -Uri $Installer.url -OutFile $downloadPath -UseBasicParsing
-
-        # ------------------------------
-        # Install by type
-        # ------------------------------
         switch ($Installer.type.ToLower()) {
 
+            # ---------------- EXE ----------------
             "exe" {
+                $fileName = Split-Path $Installer.url -Leaf
+                $downloadPath = Join-Path $tempRoot $fileName
+
+                Write-Host "Downloading $Name..." -ForegroundColor Cyan
+                Invoke-WebRequest -Uri $Installer.url -OutFile $downloadPath -UseBasicParsing
+
                 Write-Host "Installing $Name (EXE)..." -ForegroundColor Green
-                Start-Process $downloadPath `
-                    -ArgumentList $Installer.silentArgs `
-                    -Wait -NoNewWindow
+                Start-Process $downloadPath -ArgumentList $Installer.silentArgs -Wait -NoNewWindow
             }
 
+            # ---------------- MSI ----------------
             "msi" {
+                $fileName = Split-Path $Installer.url -Leaf
+                $downloadPath = Join-Path $tempRoot $fileName
+
+                Write-Host "Downloading $Name..." -ForegroundColor Cyan
+                Invoke-WebRequest -Uri $Installer.url -OutFile $downloadPath -UseBasicParsing
+
                 Write-Host "Installing $Name (MSI)..." -ForegroundColor Green
                 Start-Process "msiexec.exe" `
                     -ArgumentList "/i `"$downloadPath`" $($Installer.silentArgs)" `
                     -Wait -NoNewWindow
             }
 
+            # ---------------- ZIP ----------------
             "zip" {
-                Write-Host "Extracting ZIP for $Name..." -ForegroundColor Cyan
-
+                $fileName = Split-Path $Installer.url -Leaf
+                $downloadPath = Join-Path $tempRoot $fileName
                 $extractPath = Join-Path $tempRoot ($Name -replace '\s+', '_')
+
+                Write-Host "Downloading $Name..." -ForegroundColor Cyan
+                Invoke-WebRequest -Uri $Installer.url -OutFile $downloadPath -UseBasicParsing
+
+                Write-Host "Extracting ZIP for $Name..." -ForegroundColor Cyan
                 Expand-Archive -Path $downloadPath -DestinationPath $extractPath -Force
 
                 if ($Installer.innerInstaller -eq "msi") {
                     $msi = Get-ChildItem $extractPath -Filter *.msi -Recurse | Select-Object -First 1
-                    if (-not $msi) {
-                        throw "No MSI found in ZIP for $Name"
-                    }
+                    if (-not $msi) { throw "No MSI found in ZIP for $Name" }
 
-                    Write-Host "Installing $Name (ZIP → MSI)..." -ForegroundColor Green
                     Start-Process "msiexec.exe" `
                         -ArgumentList "/i `"$($msi.FullName)`" $($Installer.silentArgs)" `
                         -Wait -NoNewWindow
                 }
                 else {
                     $exe = Get-ChildItem $extractPath -Filter *.exe -Recurse | Select-Object -First 1
-                    if (-not $exe) {
-                        throw "No EXE found in ZIP for $Name"
-                    }
+                    if (-not $exe) { throw "No EXE found in ZIP for $Name" }
 
-                    Write-Host "Installing $Name (ZIP → EXE)..." -ForegroundColor Green
-                    Start-Process $exe.FullName `
-                        -ArgumentList $Installer.silentArgs `
-                        -Wait -NoNewWindow
+                    Start-Process $exe.FullName -ArgumentList $Installer.silentArgs -Wait -NoNewWindow
                 }
             }
 
+            # ---------------- WINGET ----------------
             "winget" {
                 Write-Host "Installing $Name (winget)..." -ForegroundColor Green
 
-                $wingetCmd = Get-Command winget -ErrorAction SilentlyContinue
-                if (-not $wingetCmd) {
-                    Write-Warning "winget not available for $Name"
-                    throw "winget missing"
+                $winget = Get-Command winget -ErrorAction SilentlyContinue
+                if (-not $winget) {
+                    throw "winget is not available on this system"
                 }
 
                 try {
-                    $args = @(
-                        "install",
-                        "--id", $Installer.id,
-                        "--silent",
-                        "--accept-package-agreements",
-                        "--accept-source-agreements",
-                        "--scope", "machine"
-                    )
-
-                    Start-Process `
-                        -FilePath $wingetCmd.Source `
-                        -ArgumentList $args `
-                        -Wait `
-                        -NoNewWindow
-
-                    Write-Host "$Name installed successfully via winget." -ForegroundColor Green
+                    Start-Process $winget.Source `
+                        -ArgumentList @(
+                            "install",
+                            "--id", $Installer.id,
+                            "--silent",
+                            "--accept-package-agreements",
+                            "--accept-source-agreements",
+                            "--scope", "machine"
+                        ) `
+                        -Wait -NoNewWindow
                 }
                 catch {
-                    Write-Warning "winget install failed for $Name. Attempting fallback..."
-
-                    if (-not $Installer.fallback) {
-                        throw "winget failed and no fallback defined"
+                    if ($Installer.fallback) {
+                        Write-Warning "winget failed for $Name - using fallback installer"
+                        Install-App -Name $Name -Installer $Installer.fallback
+                        return
                     }
-
-                    # ------------------------------
-                    # FALLBACK INSTALLER
-                    # ------------------------------
-                    $fallback = $Installer.fallback
-
-                    Write-Host "Using fallback installer for $Name ($($fallback.type))..." -ForegroundColor Cyan
-
-                    # Recurse into Install-App with fallback installer
-                    Install-App -Name $Name -Installer $fallback
-                    return
+                    throw
                 }
             }
+
             default {
                 throw "Unknown installer type '$($Installer.type)' for $Name"
-                }
+            }
         }
 
-        # ------------------------------
-        # SUCCESS
-        # ------------------------------
         Write-Host "$Name installed successfully." -ForegroundColor Green
-
         $Script:InstallResults.Apps += @{
             Name   = $Name
             Result = "Installed"
         }
     }
     catch {
-        # ------------------------------
-        # FAILURE
-        # ------------------------------
         Write-Host "$Name installation FAILED: $_" -ForegroundColor Red
-
         $Script:InstallResults.Apps += @{
             Name   = $Name
             Result = "Failed"
             Error  = $_.ToString()
         }
-
-        # Mark overall run as failed
         $Script:InstallResults.Status = "Failed"
     }
 }
+
 
 
 function Install-Winget {
