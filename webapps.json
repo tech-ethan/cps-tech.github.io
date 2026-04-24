@@ -40,6 +40,55 @@
     "icon": "https://www.powerschool.com/favicon.ico",
     "link": "https://powerschool.cps.k12.ar.us",
     "usage": ["District"]
+  },
+  "m365copilot": {
+    "name": "Microsoft 365 Copilot",
+    "description": "AI-powered assistant for Microsoft 365",
+    "icon": "https://store-images.s-microsoft.com/image/apps.21661.9007199267161390.afb6b8cd-d194-4a99-b633-03cd80118a21.e9a094be-ee73-4e19-8cdf-49a27b0974ed",
+    "link": "https://copilot.microsoft.com/",
+    "usage": ["District"]
+  },
+  "gemini": {
+    "name": "Gemini",
+    "description": "AI-powered assistant for Google Workspace",
+    "icon": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1d/Google_Gemini_icon_2025.svg/3840px-Google_Gemini_icon_2025.svg.png",
+    "link": "https://gemini.google.com/",
+    "usage": ["District"]
+  },
+  "hallpass": {
+    "name": "Hall Pass",
+    "description": "A digital hall pass system for managing student movement between classes and other areas of the school",
+    "icon": "https://starthallpass.com/images/hpshortlogo.png",
+    "link": "https://starthallpass.com/",
+    "usage": ["District"]
+  },
+  "band": {
+    "name": "Band",
+    "description": "BAND is the free communication app for groups trusted by team leaders around the world.",
+    "icon": "https://i.namu.wiki/i/pgBMz3DRVmU97EAlwY8eQv5ikY6c3f8OJMvFS7RF6V-C-2yKKHGjN4cC0O56_uXCzW91n8y8c_3EmvrumaDrOQ.svg",
+    "link": "https://www.band.us/en",
+    "usage": ["Theatre","Certified"]
+  },
+  "plex": {
+    "name": "Plex",
+    "description": "A media server for organizing and streaming personal media collections.",
+    "icon": "https://images-eds-ssl.xboxlive.com/image?url=4rt9.lXDC4H_93laV1_eHHFT949fUipzkiFOBH3fAiZZUCdYojwUyX2aTonS1aIwMrx6NUIsHfUHSLzjGJFxxs8TlbLor9feBfrt9RoDWVE10FrqPBn9ij1kUP4KrznUbYNx_HOYUbuOKuFH3OLMkzoagA8uS32wRRZaKWbI09g-&format=source",
+    "link": "https://www.plex.tv/",
+    "usage": ["District"]
+  },
+  "securlypass": {
+    "name": "Securly Pass",
+    "description": "A digital pass system for managing student access to educational resources.",
+    "icon": "https://play-lh.googleusercontent.com/BbhLfNC_LPIwZe7v45tavKHEPoUOWgtMw2EdKVBaPIvVh6owrAJBR5TRocb4IL7VBl4",
+    "link": "https://pass.securly.com/login",
+    "usage": ["District"]
+  },
+  "folletdestiny": {
+    "name": "Follet Destiny",
+    "description": "A digital library management system for schools.",
+    "icon": "https://resources.finalsite.net/images/f_auto,q_auto/v1726662218/onslowk12ncus/d2jsqll5ma4pmj9jhoi0/follett-logo.png",
+    "link": "https://cabot.folletdestiny.com/",
+    "usage": ["Library"]
   }
 
 }

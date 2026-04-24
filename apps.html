@@ -134,7 +134,7 @@
     .badge-exe { background: #3b82f6; }
     .badge-msi { background: #a855f7; }
     .badge-zip { background: #22c55e; }
-    .badge-winget { background: #64748b; }
+    .badge-winget { background: #af6330; }
 
     /* Toast */
     .toast {
@@ -270,7 +270,7 @@ function renderApps() {
   grid.innerHTML = "";
 
   Object.values(apps).forEach(app => {
-    if (!app.installer || !app.installer.url) return;
+    if (!app.installer || !app.installer.type) return;
 
     const card = document.createElement("div");
     card.className = "card";
