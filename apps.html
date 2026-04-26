@@ -104,7 +104,7 @@
     .copy,
     .copywinget,
     .openwebsite {
-      padding: 10px 14px;
+      padding: 6px 10px;
       border-radius: 8px;
       font-weight: 600;
       font-size: 0.85rem;
@@ -124,7 +124,7 @@
     }
 
     .copywinget {
-      background: #b9812d;
+      background: #af6330;
       color: var(--text);
     }
 
@@ -211,6 +211,11 @@
       .modal-version{
         color: #FFF8DC;
         font-style: italic;
+      }
+
+      .modal-description {
+        margin-top: 12px;
+        color: var(--muted);
       }
 
       .modal-header {
@@ -359,7 +364,7 @@
       </div>
     </div>
 
-    <p id="modal-description"></p>
+    <p id="modal-description" class="modal-description"></p>
 
     <div class="modal-section">
       <h4>Install Information</h4>
@@ -423,7 +428,7 @@ function renderApps() {
         `--silent --accept-package-agreements --accept-source-agreements`;
 
       const copyWinget = document.createElement("button");
-      copyWinget.className = "copy";
+      copyWinget.className = "copywinget";
       copyWinget.innerText = "Copy Winget";
       copyWinget.onclick = (e) => {
         e.stopPropagation();
@@ -452,7 +457,7 @@ function renderApps() {
 
       const copyBtn = document.createElement("button");
       copyBtn.className = "copy";
-      copyBtn.innerText = "Copy Download Link";
+      copyBtn.innerText = "Copy Link";
       copyBtn.onclick = e => {
         e.stopPropagation();
         navigator.clipboard.writeText(downloadUrl);

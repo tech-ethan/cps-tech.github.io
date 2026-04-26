@@ -1,0 +1,20 @@
+{
+  "vscode": {
+    "displayName": "Visual Studio Code",
+    "installer": {
+      "type": "winget",
+      "id": "Microsoft.VisualStudioCode"
+    }
+  },
+  "chrome": {
+    "displayName": "Google Chrome",
+    "installer": {
+      "type": "winget",
+      "id": "Google.Chrome",
+      "fallback": {
+        "type": "exe",
+        "url": "AUTO"
+      }
+    }
+  }
+}
