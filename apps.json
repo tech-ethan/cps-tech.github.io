@@ -24,10 +24,14 @@
     "website": "https://support.google.com/drive/answer/10838124?sjid=10696699648647644877-NC#desktop",
     "version": "v104.0.0.0",
     "installer": {
-      "type": "exe",
-      "url": "https://dl.google.com/drive-file-stream/GoogleDriveSetup.exe",
-      "silentArgs": "/silent /install",
-      "innerInstaller": "exe"
+      "type": "winget",
+      "id": "Google.Drive",
+        "fallback": {
+          "type": "exe",
+          "url": "https://dl.google.com/drive-file-stream/GoogleDriveSetup.exe",
+          "silentArgs": "/silent /install",
+          "innerInstaller": "exe"
+        }
     }
   },
   "instashare": {
@@ -38,10 +42,14 @@
     "website": "https://www.benq.com/en-us/business/support/products/ifp/instashare/download.html",
     "version": "v2.0.0.26",
     "installer": {
-      "type": "zip",
-      "url": "https://esupportdownload.benq.com/esupport/PUBLIC%20DISPLAY%20PRODUCT/Software/InstaShare/InstaShare_for%20Windows%20(.MSI)_v2.0.0.26_Windows_230330163404.zip",
-      "silentArgs": "/qn /norestart",
-      "innerInstaller": "msi"
+      "type": "winget",
+      "id": "BenQ.InstaShare",
+      "fallback": {
+        "type": "zip",
+        "url": "https://esupportdownload.benq.com/esupport/PUBLIC%20DISPLAY%20PRODUCT/Software/InstaShare/InstaShare_for%20Windows%20(.MSI)_v2.0.0.26_Windows_230330163404.zip",
+        "silentArgs": "/qn /norestart",
+        "innerInstaller": "msi"
+      }
     }
   },
    "instashare2": {
@@ -50,9 +58,10 @@
       "icon": "https://img.utdstc.com/icon/5fa/3d8/5fa3d81677e072e1c6edb32667fbf925ccb6115cf964249b546ee5f70cb40088:200",
       "developer": "BENQ",
       "website": "https://www.benq.com/en-us/business/ifp/instashare-2.html",
-      "version": "v1.9.5.0",
+      "version": "v1.7.1.0",
       "installer": {
-        "type": "zip",
+        "type": "winget",
+        "id": "BenQ.InstaShare2",
         "url": "https://esupportdownload.benq.com/esupport/INTERACTIVE%20FLAT%20PLAT%20FOR%20EDUCATION/Software/InstaShare%202/InstaShare%202_for%20Windows%20(.MSI)_1.9.5.0_Windows_260205155943.zip",
         "silentArgs": "/qn /norestart",
         "innerInstaller": "msi"
@@ -80,10 +89,14 @@
       "website": "https://diskanalyzer.com/download",
       "version": "v4.31",
       "installer": {
-        "type": "zip",
-        "url": "https://antibodysoftware-17031.kxcdn.com/files/wiztree_4_31_portable.zip",
-        "silentArgs": "/silent /install",
-        "innerInstaller": "exe"
+        "type": "winget",
+        "id": "AntibodySoftware.WizTree",
+        "fallback": {
+          "type": "exe",
+          "url": "https://antibodysoftware-17031.kxcdn.com/files/wiztree_4_31_portable.zip",
+          "silentArgs": "/silent /install",
+          "innerInstaller": "exe"
+        }
       }
   },
     "rufus": {
@@ -94,10 +107,14 @@
       "website": "https://rufus.ie/en/",
       "version": "v4.13",
       "installer": {
-        "type": "exe",
-        "url": "https://github.com/pbatard/rufus/releases/download/v4.13/rufus-4.13.exe",
-        "silentArgs": "/silent /install",
-        "innerInstaller": "exe"
+        "type": "winget",
+        "id": "Rufus.Rufus",
+        "fallback": {
+          "type": "exe",
+          "url": "https://github.com/pbatard/rufus/releases/download/v4.13/rufus-4.13.exe",
+          "silentArgs": "/silent /install",
+          "innerInstaller": "exe"
+        }
       }
   },
     "wisenet": {
@@ -108,10 +125,14 @@
       "website": "https://sync.wavevms.com/download/windows",
       "version": "v6.0.5.41290",
       "installer": {
-        "type": "exe",
-        "url": "https://updates.wavevms.com/hanwha/41290/windows/wave-client-6.0.5.41290-windows_x64.exe",
-        "silentArgs": "/silent /install",
-        "innerInstaller": "exe"
+        "type": "winget",
+        "id": "HanwhaVision.WisenetWave",
+        "fallback": {
+          "type": "exe",
+          "url": "https://updates.wavevms.com/hanwha/41290/windows/wave-client-6.0.5.41290-windows_x64.exe",
+          "silentArgs": "/silent /install",
+          "innerInstaller": "exe"
+        }
       }
   },
     "vcast": {
@@ -136,10 +157,14 @@
       "website": "https://www.mozilla.org/en-US/firefox/new/",
       "version": "v150.0.0",
       "installer": {
-        "type": "exe",
-        "url": "https://cdn.stubdownloader.services.mozilla.com/builds/firefox-stub/en-US/win/080893360a11b78abcbe5c5f2169892aa9eb14347d6138815333e479ced07801/Firefox%20Installer.exe",
-        "silentArgs": "/silent /install",
-        "innerInstaller": "exe"
+        "type": "winget",
+        "id": "Mozilla.Firefox",
+         "fallback": {
+          "type": "exe",
+          "url": "https://cdn.stubdownloader.services.mozilla.com/builds/firefox-stub/en-US/win/080893360a11b78abcbe5c5f2169892aa9eb14347d6138815333e479ced07801/Firefox%20Installer.exe",
+          "silentArgs": "/silent /install",
+          "innerInstaller": "exe"
+         }
       }
   },
     "gmetrix": {

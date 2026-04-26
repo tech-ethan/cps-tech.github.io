@@ -1,11 +1,8 @@
-﻿# ==========================================
+# ==========================================
 # AUTO-GENERATED - DO NOT EDIT
 # Profile: Classroom Setup
-# Generated: 2026-04-22 21:51:54
+# Generated: 2026-04-26 16:58:02
 # ==========================================
-
-Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned
-#Requires -RunAsAdministrator
 
 $logDir = "C:\SetupLogs"
 if (-not (Test-Path $logDir)) {
@@ -15,15 +12,15 @@ if (-not (Test-Path $logDir)) {
 Start-Transcript -Path "\InstallerHub-classroom.log" -Append
 
 . "$PSScriptRoot\functions.ps1"
+Assert-Administrator
 
 Write-Host "Starting Classroom Setup..." -ForegroundColor Cyan
 
 # --- Google Chrome
 Install-App -Name "Google Chrome" -Installer @{
-    type = "exe"
-    url = "https://dl.google.com/update2/installers/ChromeSetup.exe"
-    silentArgs = "/silent /install"
-    innerInstaller = "exe"
+    type = "winget"
+    id = "Google.Chrome"
+    fallback = "@{type=exe; url=https://dl.google.com/d1/chrome/install/ChromeSetup.exe; silentArgs=/silent /install}"
 }
 
 # --- UniFLOW SmartClient
@@ -55,7 +52,7 @@ Write-Host "Summary report written to $reportPath" -ForegroundColor Green
 if ($env:INSTALLER_UPLOAD -eq "true") {
     try {
         Invoke-RestMethod
-            -Uri "https://script.google.com/macros/s/AKfycbzmzgSuvE6eALABU700n5YNN1r4gCKmllCflkyH4GhkCJwPb0L89iuidQaUYVC9NMelpA/exec"
+            -Uri "https://script.google.com/a/macros/cps.k12.ar.us/s/AKfycbzmzgSuvE6eALABU700n5YNN1r4gCKmllCflkyH4GhkCJwPb0L89iuidQaUYVC9NMelpA/exec"
             -Method POST
             -Body ($Script:InstallResults | ConvertTo-Json -Depth 5)
             -ContentType "application/json"

@@ -5,22 +5,16 @@
     "badges": ["Default", "Teacher"],
     "apps": ["chrome","drive","instashare","instashare2","uniflow","vcast"]
   },
-  "admin": {
-    "name": "Admin Setup",
-    "description": "This profile is intended for IT administrators. It includes a selection of applications that are commonly used for administrative tasks and system management.",
-    "badges": ["IT", "Admin"],
-    "apps": ["chrome", "drive", "wisenet", "uniflow"]
-  },
   "classroom": {
     "name": "Classroom Setup",
     "description": "This profile is designed for classroom environments. It includes applications that are commonly used in educational settings, such as web browsers and document management tools.",
     "badges": ["Classroom", "Exams"],
     "apps": ["chrome", "uniflow"]
   },
-  "test": {
-    "name": "Testing Setup",
-    "description": "This profile is used for testing purposes. It includes a minimal set of applications to ensure that the setup process works correctly.",
-    "badges": ["Testing"],
-    "apps": ["firefox","chrome"]
+  "standard-plus-instashare": {
+    "name": "Standard + Instashare",
+    "description": "Standard workstation setup with InstaShare 2 added.",
+    "badges": ["Standard", "Presentation"],
+    "apps": ["chrome","drive","instashare","instashare2"]
   }
 }

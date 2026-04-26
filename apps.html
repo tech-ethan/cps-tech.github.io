@@ -10,6 +10,8 @@
       --bg: #0f172a;
       --card: #111827;
       --accent: #3b82f6;
+      --accent2: #1f4685;
+      --accent3: #0e1f3b;
       --text: #e5e7eb;
       --muted: #9ca3af;
     }
@@ -102,8 +104,7 @@
 
     .download,
     .copy,
-    .copywinget,
-    .openwebsite {
+    .copywinget {
       padding: 6px 10px;
       border-radius: 8px;
       font-weight: 600;
@@ -119,18 +120,13 @@
     }
 
     .copy {
-      background: #c48526;
+      background: var(--accent2);
       color: var(--text);
     }
 
     .copywinget {
-      background: #af6330;
+      background: var(--accent2);
       color: var(--text);
-    }
-
-    .openwebsite {
-      background: #22c55e;
-      color: white;
     }
 
     /* Installer badges */
@@ -146,7 +142,7 @@
     .badge-exe { background: #3b82f6; }
     .badge-msi { background: #a855f7; }
     .badge-zip { background: #22c55e; }
-    .badge-winget { background: #af6330; }
+    .badge-winget { background: var(--accent2); }
 
     /* Toast */
     .toast {
