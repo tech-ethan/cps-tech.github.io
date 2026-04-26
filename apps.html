@@ -101,7 +101,9 @@
     }
 
     .download,
-    .copy {
+    .copy,
+    .copywinget,
+    .openwebsite {
       padding: 10px 14px;
       border-radius: 8px;
       font-weight: 600;
@@ -117,8 +119,18 @@
     }
 
     .copy {
-      background: #1f2937;
+      background: #c48526;
       color: var(--text);
+    }
+
+    .copywinget {
+      background: #b9812d;
+      color: var(--text);
+    }
+
+    .openwebsite {
+      background: #22c55e;
+      color: white;
     }
 
     /* Installer badges */
@@ -440,11 +452,11 @@ function renderApps() {
 
       const copyBtn = document.createElement("button");
       copyBtn.className = "copy";
-      copyBtn.innerText = "Copy URL";
+      copyBtn.innerText = "Copy Download Link";
       copyBtn.onclick = e => {
         e.stopPropagation();
         navigator.clipboard.writeText(downloadUrl);
-        showToast("Installer URL copied", "📎");
+        showToast("Download link copied", "📎");
       };
       actions.appendChild(copyBtn);
     }
@@ -478,7 +490,7 @@ function openAppModal(app) {
   website.href = app.website;
   website.target = "_blank";
   website.rel = "noopener";
-  website.innerText = "Website";
+  website.innerText = "Open Website";
 
 
   if (installer.type === "winget") {
@@ -493,8 +505,8 @@ function openAppModal(app) {
 
   if (installer.type === "winget") {
     const copyWinget = document.createElement("button");
-    copyWinget.className = "copy";
-    copyWinget.innerText = "Copy Winget Command";
+    copyWinget.className = "copywinget";
+    copyWinget.innerText = "Copy Winget";
     copyWinget.onclick = () => {
       navigator.clipboard.writeText(installBox.innerText);
       showToast("Winget command copied", "📎");
@@ -517,7 +529,7 @@ function openAppModal(app) {
     site.href = app.website;
     site.target = "_blank";
     site.rel = "noopener";
-    site.innerText = "Website";
+    site.innerText = "Open Website";
     actions.appendChild(site);
   }
 
