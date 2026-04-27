@@ -5,7 +5,8 @@
   <title>Application Library · Installer Hub</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <style>
+  
+<style>
     :root {
       --bg: #0f172a;
       --card: #111827;
@@ -38,17 +39,7 @@
       margin-bottom: 24px;
     }
 
-    nav {
-      margin-bottom: 24px;
-    }
-
-    nav a {
-      color: var(--accent);
-      text-decoration: none;
-      font-weight: 600;
-      margin-right: 16px;
-    }
-
+    /* SEARCH */
     input.search {
       width: 100%;
       padding: 12px 14px;
@@ -60,17 +51,74 @@
       font-size: 1rem;
     }
 
+    /* GRID */
     .grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
       gap: 20px;
     }
 
+    /* CARD */
     .card {
+      position: relative;
+      overflow: hidden;
       background: var(--card);
       border-radius: 14px;
       padding: 20px;
       box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+      cursor: pointer;
+      transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease;
+    }
+
+    
+    /* Ripple element */
+    .card .ripple {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(59, 130, 246, 0.35);
+      transform: scale(0);
+      animation: ripple-animation 600ms ease-out;
+      pointer-events: none;
+    }
+
+    /* Ripple animation */
+    @keyframes ripple-animation {
+      to {
+        transform: scale(4);
+        opacity: 0;
+      }
+    }
+
+    /* Accessibility: reduced motion */
+    @media (prefers-reduced-motion: reduce) {
+      .card .ripple {
+        animation: none;
+        opacity: 0;
+      }
+    }
+
+
+    /* Accent border (hidden by default) */
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      border: 1px solid transparent;
+      transition: border-color 0.25s ease;
+      pointer-events: none;
+    }
+
+    /* Hover animation */
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 40px rgba(59,130,246,0.25);
+    }
+
+    .card:hover::before {
+      border-color: var(--accent);
     }
 
     .card-header {
@@ -83,6 +131,11 @@
     .card-header img {
       width: 40px;
       height: 40px;
+      transition: transform 0.25s ease;
+    }
+
+    .card:hover .card-header img {
+      transform: scale(1.1);
     }
 
     .card-header h2 {
@@ -90,10 +143,59 @@
       margin: 0;
     }
 
+    
+    /* Hover hint */
+    .card-hint {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 12px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--accent);
+      opacity: 0;
+      transform: translateY(6px);
+      transition:
+        opacity 0.25s ease,
+        transform 0.25s ease;
+    }
+
+    /* Arrow animation */
+    .card-hint .arrow {
+      transition: transform 0.25s ease;
+    }
+
+    /* Reveal on hover or keyboard focus */
+    .card:hover .card-hint,
+    .card:focus-visible .card-hint {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .card:hover .card-hint .arrow,
+    .card:focus-visible .card-hint .arrow {
+      transform: translateX(4px);
+    }
+
+    /* Accessibility: reduced motion */
+    @media (prefers-reduced-motion: reduce) {
+      .card-hint,
+      .card-hint .arrow {
+        transition: none;
+      }
+    }
+
+
     .card p {
       font-size: 0.9rem;
       color: var(--muted);
       margin-bottom: 14px;
+    }
+
+    .card p.note {
+      font-size: 0.9rem;
+      color: var(--accent);
+      margin-bottom: 0;
     }
 
     .actions {
@@ -119,17 +221,12 @@
       color: white;
     }
 
-    .copy {
-      background: var(--accent2);
-      color: var(--text);
-    }
-
+    .copy,
     .copywinget {
       background: var(--accent2);
       color: var(--text);
     }
 
-    /* Installer badges */
     .installer-badge {
       padding: 4px 10px;
       border-radius: 999px;
@@ -143,6 +240,16 @@
     .badge-msi { background: #a855f7; }
     .badge-zip { background: #22c55e; }
     .badge-winget { background: var(--accent2); }
+
+    /* Reduce animation for accessibility */
+    @media (prefers-reduced-motion: reduce) {
+      .card,
+      .card::before,
+      .card-header img {
+        transition: none;
+      }
+    }
+
 
     /* Toast */
     .toast {
@@ -412,13 +519,19 @@ function renderApps() {
 
     const desc = document.createElement("p");
     desc.innerText = app.description || "";
-    card.appendChild(desc);
+    //card.appendChild(desc);
+
+    const note = document.createElement("p");
+    note.className = "note";
+    note.innerText = "Click for Details";
+    //card.appendChild(note);
 
     const actions = document.createElement("div");
     actions.className = "actions";
 
     // --- Winget action ---
-    if (app.installer.type === "winget") {
+    /* 
+      if (app.installer.type === "winget") {
       const wingetCmd =
         `winget install --id ${app.installer.id} ` +
         `--silent --accept-package-agreements --accept-source-agreements`;
@@ -461,15 +574,43 @@ function renderApps() {
       };
       actions.appendChild(copyBtn);
     }
-
-    card.appendChild(actions);
+    */
 
     // --- Card click for modal ---
-    card.onclick = () => openAppModal(app);
+    card.onclick = (e) => {
+      createRipple(e, card);
+      openAppModal(app);
+    };
+    
+    const hint = document.createElement("div");
+    hint.className = "card-hint";
+    hint.innerHTML = `<span>Click for details</span><span class="arrow">→</span>`;
+    card.appendChild(hint);
+
 
     grid.appendChild(card);
   });
 }
+
+    function createRipple(event, element) {
+      const rect = element.getBoundingClientRect();
+      const ripple = document.createElement("span");
+      ripple.className = "ripple";
+
+      const size = Math.max(rect.width, rect.height);
+      const x = event.clientX - rect.left - size / 2;
+      const y = event.clientY - rect.top - size / 2;
+
+      ripple.style.width = ripple.style.height = `${size}px`;
+      ripple.style.left = `${x}px`;
+      ripple.style.top = `${y}px`;
+
+      element.appendChild(ripple);
+
+      ripple.addEventListener("animationend", () => {
+        ripple.remove();
+      });
+    }
 
 
 
