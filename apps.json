@@ -3,6 +3,9 @@
     "name": "Google Chrome",
     "description": "Enterprise web browser",
     "icon": "https://www.google.com/chrome/static/images/chrome-logo-m100.svg",
+    "developer": "Google",
+    "website": "https://www.google.com/chrome/",
+    "version": "v147.0.7727.117",
     "installer": {
       "type": "winget",
       "id": "Google.Chrome",
@@ -17,30 +20,48 @@
     "name": "Google Drive",
     "description": "Google Drive for Desktop",
     "icon": "https://static.vecteezy.com/system/resources/previews/017/395/378/non_2x/google-drive-icons-free-png.png",
+    "developer": "Google",
+    "website": "https://support.google.com/drive/answer/10838124?sjid=10696699648647644877-NC#desktop",
+    "version": "v104.0.0.0",
     "installer": {
-      "type": "exe",
-      "url": "https://dl.google.com/drive-file-stream/GoogleDriveSetup.exe",
-      "silentArgs": "/silent /install",
-      "innerInstaller": "exe"
+      "type": "winget",
+      "id": "Google.Drive",
+        "fallback": {
+          "type": "exe",
+          "url": "https://dl.google.com/drive-file-stream/GoogleDriveSetup.exe",
+          "silentArgs": "/silent /install",
+          "innerInstaller": "exe"
+        }
     }
   },
   "instashare": {
     "name": "InstaShare",
     "description": "BENQ Gen‑1 Casting Application",
     "icon": "https://play-lh.googleusercontent.com/o0fHrq52G0OjiB_1PRVytx3DlunmznPXDc-uv2HhCngVRMDM0zhshHYFAEdxoN6k-PM",
+    "developer": "BENQ",
+    "website": "https://www.benq.com/en-us/business/support/products/ifp/instashare/download.html",
+    "version": "v2.0.0.26",
     "installer": {
-      "type": "zip",
-      "url": "https://esupportdownload.benq.com/esupport/PUBLIC%20DISPLAY%20PRODUCT/Software/InstaShare/InstaShare_for%20Windows%20(.MSI)_v2.0.0.26_Windows_230330163404.zip",
-      "silentArgs": "/qn /norestart",
-      "innerInstaller": "msi"
+      "type": "winget",
+      "id": "BenQ.InstaShare",
+      "fallback": {
+        "type": "zip",
+        "url": "https://esupportdownload.benq.com/esupport/PUBLIC%20DISPLAY%20PRODUCT/Software/InstaShare/InstaShare_for%20Windows%20(.MSI)_v2.0.0.26_Windows_230330163404.zip",
+        "silentArgs": "/qn /norestart",
+        "innerInstaller": "msi"
+      }
     }
   },
    "instashare2": {
       "name": "InstaShare 2",
       "description": "BENQ Gen‑2 Casting Application",
       "icon": "https://img.utdstc.com/icon/5fa/3d8/5fa3d81677e072e1c6edb32667fbf925ccb6115cf964249b546ee5f70cb40088:200",
+      "developer": "BENQ",
+      "website": "https://www.benq.com/en-us/business/ifp/instashare-2.html",
+      "version": "v1.7.1.0",
       "installer": {
-        "type": "zip",
+        "type": "winget",
+        "id": "BenQ.InstaShare2",
         "url": "https://esupportdownload.benq.com/esupport/INTERACTIVE%20FLAT%20PLAT%20FOR%20EDUCATION/Software/InstaShare%202/InstaShare%202_for%20Windows%20(.MSI)_1.9.5.0_Windows_260205155943.zip",
         "silentArgs": "/qn /norestart",
         "innerInstaller": "msi"
@@ -50,9 +71,12 @@
       "name": "UniFLOW SmartClient",
       "description": "UniFLOWs Printing Service",
       "icon": "https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/a5/7b/8e/a57b8e28-e13a-1713-d7e9-e0fa2cb65cdc/AppIcon-1x_U007emarketing-0-10-0-85-220-0.png/200x200ia-75.webp",
+      "developer": "NT-ware",
+      "website": "https://www.uniflow.global/en/more/about/",
+      "version": "Not Available",
       "installer": {
         "type": "msi",
-        "url": "https://antibodysoftware-17031.kxcdn.com/files/wiztree_4_31_portable.zip",
+        "url": "\\\\fileserver1\\tech$\\Ethans Stack\\Applications\\SmartClient_X64_25.2.0_windows_x64_2025.2.0.1.msi",
         "silentArgs": "/silent /install",
         "innerInstaller": "msi"
       }
@@ -61,39 +85,63 @@
       "name": "WizTree",
       "description": "Visual Disk Management Application",
       "icon": "https://antibodysoftware-17031.kxcdn.com/images/wiztree200x.png",
+      "developer": "Antibody Software",
+      "website": "https://diskanalyzer.com/download",
+      "version": "v4.31",
       "installer": {
-        "type": "zip",
-        "url": "https://antibodysoftware-17031.kxcdn.com/files/wiztree_4_31_portable.zip",
-        "silentArgs": "/silent /install",
-        "innerInstaller": "exe"
+        "type": "winget",
+        "id": "AntibodySoftware.WizTree",
+        "fallback": {
+          "type": "exe",
+          "url": "https://antibodysoftware-17031.kxcdn.com/files/wiztree_4_31_portable.zip",
+          "silentArgs": "/silent /install",
+          "innerInstaller": "exe"
+        }
       }
   },
     "rufus": {
       "name": "Rufus",
       "description": "Visual Disk Management Application",
       "icon": "https://upload.wikimedia.org/wikipedia/commons/d/de/Rufus-logo.png",
+      "developer": "Pete Batard",
+      "website": "https://rufus.ie/en/",
+      "version": "v4.13",
       "installer": {
-        "type": "exe",
-        "url": "https://github.com/pbatard/rufus/releases/download/v4.13/rufus-4.13.exe",
-        "silentArgs": "/silent /install",
-        "innerInstaller": "exe"
+        "type": "winget",
+        "id": "Rufus.Rufus",
+        "fallback": {
+          "type": "exe",
+          "url": "https://github.com/pbatard/rufus/releases/download/v4.13/rufus-4.13.exe",
+          "silentArgs": "/silent /install",
+          "innerInstaller": "exe"
+        }
       }
   },
     "wisenet": {
       "name": "Wisenet Wave",
       "description": "Camera Access Application",
       "icon": "https://play-lh.googleusercontent.com/-1ZN3r8_csJazOp1DPUK0KCTf_x72U0yTZq23MgeViBMWfGcjqfm7LbnhyEoIF_xEw",
+      "developer": "Hanwha Vision",
+      "website": "https://sync.wavevms.com/download/windows",
+      "version": "v6.0.5.41290",
       "installer": {
-        "type": "exe",
-        "url": "https://updates.wavevms.com/hanwha/41290/windows/wave-client-6.0.5.41290-windows_x64.exe",
-        "silentArgs": "/silent /install",
-        "innerInstaller": "exe"
+        "type": "winget",
+        "id": "HanwhaVision.WisenetWave",
+        "fallback": {
+          "type": "exe",
+          "url": "https://updates.wavevms.com/hanwha/41290/windows/wave-client-6.0.5.41290-windows_x64.exe",
+          "silentArgs": "/silent /install",
+          "innerInstaller": "exe"
+        }
       }
   },
     "vcast": {
       "name": "vCastSender",
       "description": "ViewSonic's Casting Application",
       "icon": "https://img.informer.com/icons_mac/png/128/537/537401.png",
+      "developer": "ViewSonic",
+      "website": "https://www.viewsonic.com/us/vcast?srsltid=AfmBOopQ9Lf8jJtxJO18OQSq3L9xo2halkJqNN8-n7H3KUL0mqHiQ898",
+      "version": "v2.6.1203",
       "installer": {
         "type": "zip",
         "url": "https://www.viewsonicglobal.com/public/products_download/software/cd/vCastSender_for_Windows.zip?pass",
@@ -105,17 +153,27 @@
       "name": "Mozilla FireFox",
       "description": "Mozilla's Enterprise Web Browser",
       "icon": "https://blog.mozilla.org/opendesign/files/2018/07/firefox-logo.png",
+      "developer": "Mozilla Corporation",
+      "website": "https://www.mozilla.org/en-US/firefox/new/",
+      "version": "v150.0.0",
       "installer": {
-        "type": "exe",
-        "url": "https://cdn.stubdownloader.services.mozilla.com/builds/firefox-stub/en-US/win/080893360a11b78abcbe5c5f2169892aa9eb14347d6138815333e479ced07801/Firefox%20Installer.exe",
-        "silentArgs": "/silent /install",
-        "innerInstaller": "exe"
+        "type": "winget",
+        "id": "Mozilla.Firefox",
+         "fallback": {
+          "type": "exe",
+          "url": "https://cdn.stubdownloader.services.mozilla.com/builds/firefox-stub/en-US/win/080893360a11b78abcbe5c5f2169892aa9eb14347d6138815333e479ced07801/Firefox%20Installer.exe",
+          "silentArgs": "/silent /install",
+          "innerInstaller": "exe"
+         }
       }
   },
     "gmetrix": {
       "name": "Gmetrix",
       "description": "GMetrix SMS is a web-based administration system that allows instructors and administrators to manage the distribution and tracking of practice test use by their students.",
       "icon": "https://s3.amazonaws.com/cdn.freshdesk.com/data/helpdesk/attachments/production/67107085549/original/ZiKdaY3dCB8CV0iIlSfZZ7_y4s5alx-WIg.png?1722379979",
+      "developer": "GMetrix LLC",
+      "website": "https://gmetrix.net/GetGMetrixSMS.aspx",
+      "version": "v7.1.7",
       "installer": {
         "type": "exe",
         "url": "https://releases.gmetrix.net/smse/latest/win/GMetrixSMSe-v7.1.7.exe",
@@ -127,6 +185,9 @@
       "name": "Cricut Design Space",
       "description": "A digital design tool for creating and cutting custom shapes and designs.",
       "icon": "https://companieslogo.com/img/orig/CRCT-8260720d.png?t=1720244491",
+      "developer": "Cricut, Inc.",
+      "website": "https://design.cricut.com/",
+      "version": "Version Not Available",
       "installer": {
         "type": "exe",
         "url": "https://releases.cricut.com/design-space/latest/win/CricutDesignSpace.exe",
@@ -138,6 +199,9 @@
       "name": "GoGuardian",
       "description": "A digital monitoring tool for tracking student online activity.",
       "icon": "https://cdn.prod.website-files.com/60e615980cab093e6f2db3c3/623b649188f5a50d7920f040_67bfa5bca438d84d92651e7caf0f8d6ccda306bd.png",
+      "developer": "GoGuardian",
+      "website": "https://www.goguardian.com/",
+      "version": "Version Not Available",
       "installer": {
         "type": "exe",
         "url": "https://releases.goguardian.com/goguardian/latest/win/GoGuardian.exe",
@@ -149,9 +213,12 @@
       "name": "Sure Cuts a Lot Pro 3",
       "description": "Sure Cuts A Lot PRO 3 by US Cutter is an easy to use software, which allows you to cut virtually any shape with various electronic cutting machines.",
       "icon": "https://cdn11.bigcommerce.com/s-stdtga21hq/images/stencil/80w/products/2496/11968/SCALPRO-V4__11826.1688073991.jpg?c=1",
+      "developer": "US Cutter",
+      "website": "https://www.uscutter.com/sure-cuts-a-lot-pro-3",
+      "version": "Version Not Available",
       "installer": {
         "type": "exe",
-        "url": "https://releases.goguardian.com/goguardian/latest/win/GoGuardian.exe",
+        "url": "https://www.uscutter.com/downloads/",
         "silentArgs": "/silent /install",
         "innerInstaller": "exe"
       }
@@ -160,6 +227,9 @@
       "name": "Microsoft PC Manager",
       "description": "A comprehensive tool for managing and optimizing your Windows PC.",
       "icon": "https://store-images.s-microsoft.com/image/apps.8039.14298090620665013.d1d2f3d6-b14f-46af-9d3d-ab1fb90b7003.f91cf4db-2647-4592-a9a6-c6b98e46e15e",
+      "developer": "Microsoft Corporation",
+      "website": "https://www.microsoft.com/en-us/windows/pc-manager",
+      "version": "Version Not Available",
       "installer": {
         "type": "winget",
         "id": "Microsoft.PCManager"
@@ -169,6 +239,9 @@
       "name": "Microsoft PowerToys",
       "description": "A set of utilities for power users to maximize productivity.",
       "icon": "https://images-eds-ssl.xboxlive.com/image?url=4rt9.lXDC4H_93laV1_eHM0OYfiFeMI2p9MWie0CvL99U4GA1gf6_kayTt_kBblFwHwo8BW8JXlqfnYxKPmmBRY0umJKt.GQbXbqRe3O0.O_6B_adcpaObdHyb_2rNHqmm2K.GkXrhTXqpauDJtzgHoCwpPkurfDpdKNsQ5.xcY-&format=source&h=210",
+      "developer": "Microsoft Corporation",
+      "website": "https://www.microsoft.com/en-us/windows/power-toys",
+      "version": "Version Not Available",
       "installer": {
         "type": "winget",
         "id": "Microsoft.PowerToys"
@@ -178,6 +251,9 @@
       "name": "Wireshark",
       "description": "A network protocol analyzer for troubleshooting and educational purposes.",
       "icon": "https://www.wireshark.org/_astro/wireshark-logo-big.CkRjSOaC_vkreH.png",
+      "developer": "Wireshark Foundation",
+      "website": "https://www.wireshark.org/",
+      "version": "Version Not Available",
       "installer": {
         "type": "winget",
         "id": "WiresharkFoundation.Wireshark"
@@ -187,6 +263,9 @@
     "name": "Lenovo Commerical Vantage",
     "description": "A free, enterprise-focused app designed for IT administrators to manage, update, and secure Lenovo commercial PCs running Windows 10/11.",
     "icon": "https://store-images.s-microsoft.com/image/apps.46785.13760829730430362.1d7a68fe-b22e-459c-8789-8b3a160d1b87.dc5e931d-38d0-40f5-88a4-aa7d9401a67a",
+    "developer": "Lenovo",
+    "website": "https://www.lenovo.com/us/en/commercial-vantage",
+    "version": "Version Not Available",
     "installer": {
       "type": "winget",
       "id": "9NR5B8GVVM13"
@@ -196,6 +275,9 @@
     "name": "AirParrot 3",
     "description": "Users consistently praise the ease of use and quick connectivity of AirParrot, making it a reliable choice for screen mirroring across devices.",
     "icon": "https://www.airsquirrels.com/hubfs/Logos/AirParrot%20Logo/01%20Logo/Grey%20Text/AirParrot-3-grey-small.png",
+    "developer": "Squirrels LLC",
+    "website": "https://www.airsquirrels.com/airparrot/",
+    "version": "Version Not Available",
     "installer": {
       "type": "msi",
       "url": "",
@@ -207,6 +289,9 @@
       "name": "Vex Code Pro v5",
       "description": "A visual programming environment for creating robot control programs.",
       "icon": "https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/2d/f2/97/2df2973d-f153-1601-0ea6-93536f44537c/V5AppIcon-0-0-1x_U007emarketing-0-8-0-85-220.png/1200x630bb.png",
+      "developer": "VEX Robotics",
+      "website": "https://www.vexrobotics.com/vexcode",
+      "version": "Version Not Available",
       "installer": {
         "type": "msi",
         "url": "",
@@ -218,6 +303,9 @@
       "name": "Splashtop",
       "description": "A remote desktop application for accessing and controlling computers remotely.",
       "icon": "https://us1.discourse-cdn.com/spiceworks/original/4X/a/5/4/a54f30ab91bf76af1afc718a96b1ba14af42f0c0.png",
+      "developer": "Splashtop Inc.",
+      "website": "https://www.splashtop.com/",
+      "version": "Version Not Available",
       "installer": {
         "type": "msi",
         "url": "",

@@ -10,6 +10,8 @@
       --bg: #0f172a;
       --card: #111827;
       --accent: #3b82f6;
+      --accent2: #1f4685;
+      --accent3: #0e1f3b;
       --text: #e5e7eb;
       --muted: #9ca3af;
     }
@@ -87,7 +89,7 @@
     }
 
     .download { background: var(--accent); color: white; }
-    .copy { background: #1f2937; color: white; }
+    .copy { background: var(--accent2); color: white; }
 
     /* -------- PROFILE CARD (COLLAPSIBLE) -------- */
 
@@ -95,7 +97,7 @@
       background: #030820;
       margin-top: 16px;
       border-radius: 14px;
-      padding: 20px;
+      padding: 42px;
       overflow: hidden;
 
       max-height: 0;
@@ -117,14 +119,15 @@
     .profile-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-      gap: 14px;
+      gap: 52px;
       margin-top: 12px;
     }
 
     .profile-app-card {
       background: #020617;
+      width: 235px;
       border-radius: 12px;
-      padding: 14px;
+      padding: 32px;
     }
 
     .profile-app-header {
@@ -156,7 +159,7 @@
     .badge-exe { background: #3b82f6; }
     .badge-msi { background: #a855f7; }
     .badge-zip { background: #22c55e; }
-    .badge-winget { background: #af6330; }
+    .badge-winget { background: var(--accent2); }
 
     pre {
       background: #020617;
@@ -179,7 +182,7 @@
       display: flex;
       gap: 10px;
       align-items: center;
-
+      z-index: 10000;
       opacity: 0;
       transform: translateY(10px);
       transition: opacity 0.25s ease, transform 0.25s ease;

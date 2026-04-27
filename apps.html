@@ -10,6 +10,8 @@
       --bg: #0f172a;
       --card: #111827;
       --accent: #3b82f6;
+      --accent2: #1f4685;
+      --accent3: #0e1f3b;
       --text: #e5e7eb;
       --muted: #9ca3af;
     }
@@ -101,8 +103,9 @@
     }
 
     .download,
-    .copy {
-      padding: 10px 14px;
+    .copy,
+    .copywinget {
+      padding: 6px 10px;
       border-radius: 8px;
       font-weight: 600;
       font-size: 0.85rem;
@@ -117,7 +120,12 @@
     }
 
     .copy {
-      background: #1f2937;
+      background: var(--accent2);
+      color: var(--text);
+    }
+
+    .copywinget {
+      background: var(--accent2);
       color: var(--text);
     }
 
@@ -134,7 +142,7 @@
     .badge-exe { background: #3b82f6; }
     .badge-msi { background: #a855f7; }
     .badge-zip { background: #22c55e; }
-    .badge-winget { background: #af6330; }
+    .badge-winget { background: var(--accent2); }
 
     /* Toast */
     .toast {
@@ -164,6 +172,88 @@
       font-size: 0.8rem;
       color: var(--muted);
     }
+
+    .modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(2,6,23,0.85);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 999;
+    }
+
+      .modal.hidden {
+        display: none;
+      }
+
+      .modal-content {
+        background: var(--card);
+        border-radius: 14px;
+        width: 90%;
+        max-width: 540px;
+        padding: 24px;
+      }
+
+      .modal-close {
+        float: right;
+        background: none;
+        border: none;
+        font-size: 1.5rem;
+        color: var(--muted);
+        cursor: pointer;
+      }
+
+      .modal-version{
+        color: #FFF8DC;
+        font-style: italic;
+      }
+
+      .modal-description {
+        margin-top: 12px;
+        color: var(--muted);
+      }
+
+      .modal-header {
+        display: flex;
+        gap: 14px;
+        align-items: center;
+        margin-bottom: 12px;
+      }
+
+      .modal-header img {
+        width: 48px;
+        height: 48px;
+      }
+
+      .modal-section {
+        margin-top: 16px;
+      }
+
+      .modal-section pre {
+        background: #020617;
+        padding: 12px;
+        border-radius: 8px;
+        font-size: 0.85rem;
+      }
+
+      .modal-actions {
+        display: flex;
+        gap: 10px;
+        margin-top: 16px;
+      }
+
+      
+      pre,
+      .code,
+      .install-command {
+        white-space: pre-wrap;
+        word-break: break-word;
+        overflow-wrap: anywhere;
+      }
+
+  
+
 
     /* Navigation bar */
     .nav {
@@ -256,6 +346,32 @@
   Internal installer repository · Hosted on GitHub Pages
 </footer>
 
+
+<div id="app-modal" class="modal hidden">
+  <div class="modal-content">
+    <button class="modal-close" onclick="closeModal()">×</button>
+
+    <div class="modal-header">
+      <img id="modal-icon">
+      <div>
+        <h2 id="modal-title"></h2>
+        <p id="modal-version" class="modal-version"></p>
+        <p id="modal-developer"></p>
+      </div>
+    </div>
+
+    <p id="modal-description" class="modal-description"></p>
+
+    <div class="modal-section">
+      <h4>Install Information</h4>
+      <pre id="modal-install"></pre>
+    </div>
+
+    <div class="modal-actions" id="modal-actions"></div>
+  </div>
+</div>
+
+
 <script>
 let apps = {};
 
@@ -301,26 +417,130 @@ function renderApps() {
     const actions = document.createElement("div");
     actions.className = "actions";
 
-    const download = document.createElement("a");
-    download.className = "download";
-    download.href = app.installer.url;
-    download.innerText = "Download";
+    // --- Winget action ---
+    if (app.installer.type === "winget") {
+      const wingetCmd =
+        `winget install --id ${app.installer.id} ` +
+        `--silent --accept-package-agreements --accept-source-agreements`;
 
-    const copyBtn = document.createElement("button");
-    copyBtn.className = "copy";
-    copyBtn.innerText = "Copy URL";
-    copyBtn.onclick = () => {
-      navigator.clipboard.writeText(app.installer.url);
-      showToast("Installer URL copied", "📎");
-    };
+      const copyWinget = document.createElement("button");
+      copyWinget.className = "copywinget";
+      copyWinget.innerText = "Copy Winget";
+      copyWinget.onclick = (e) => {
+        e.stopPropagation();
+        navigator.clipboard.writeText(wingetCmd);
+        showToast("Winget command copied", "📋");
+      };
 
-    actions.appendChild(download);
-    actions.appendChild(copyBtn);
+      actions.appendChild(copyWinget);
+    }
+
+    // --- Download action (direct URL or fallback) ---
+    const downloadUrl =
+      app.installer.url ||
+      app.installer.fallback?.url;
+
+    if (downloadUrl) {
+      const download = document.createElement("a");
+      download.className = "download";
+      download.href = downloadUrl;
+      download.innerText = "Download";
+      download.onclick = e => {
+        e.stopPropagation();
+        showToast("Download started", "👇");
+      };
+      actions.appendChild(download);
+
+      const copyBtn = document.createElement("button");
+      copyBtn.className = "copy";
+      copyBtn.innerText = "Copy Link";
+      copyBtn.onclick = e => {
+        e.stopPropagation();
+        navigator.clipboard.writeText(downloadUrl);
+        showToast("Download link copied", "📎");
+      };
+      actions.appendChild(copyBtn);
+    }
+
     card.appendChild(actions);
+
+    // --- Card click for modal ---
+    card.onclick = () => openAppModal(app);
 
     grid.appendChild(card);
   });
 }
+
+
+
+function openAppModal(app) {
+  document.getElementById("modal-icon").src = app.icon || "";
+  document.getElementById("modal-title").innerText = app.name;
+  document.getElementById("modal-version").innerText = app.version || "Version Not Available";
+  document.getElementById("modal-developer").innerText =
+    app.developer ? `Developed By ${app.developer}` : "";
+  document.getElementById("modal-description").innerText =
+    app.description || "";
+
+  const installer = app.installer;
+  const installBox = document.getElementById("modal-install");
+
+
+  const website = document.createElement("a");
+  website.className = "download"; // or whatever button style you’re using
+  website.href = app.website;
+  website.target = "_blank";
+  website.rel = "noopener";
+  website.innerText = "Open Website";
+
+
+  if (installer.type === "winget") {
+    installBox.innerText =
+      `winget install --id ${installer.id} --silent --accept-package-agreements --accept-source-agreements`;
+  } else {
+    installBox.innerText = installer.url;
+  }
+
+  const actions = document.getElementById("modal-actions");
+  actions.innerHTML = "";
+
+  if (installer.type === "winget") {
+    const copyWinget = document.createElement("button");
+    copyWinget.className = "copywinget";
+    copyWinget.innerText = "Copy Winget";
+    copyWinget.onclick = () => {
+      navigator.clipboard.writeText(installBox.innerText);
+      showToast("Winget command copied", "📎");
+    }
+      
+    actions.appendChild(copyWinget);
+  }
+
+  if (installer.url) {
+    const dl = document.createElement("a");
+    dl.className = "download";
+    dl.href = installer.url;
+    dl.innerText = "Download Installer";
+    actions.appendChild(dl);
+  }
+
+  if (app.website) {
+    const site = document.createElement("a");
+    site.className = "download";
+    site.href = app.website;
+    site.target = "_blank";
+    site.rel = "noopener";
+    site.innerText = "Open Website";
+    actions.appendChild(site);
+  }
+
+  document.getElementById("app-modal").classList.remove("hidden");
+}
+
+function closeModal() {
+  document.getElementById("app-modal").classList.add("hidden");
+}
+
 
 function filterApps(q) {
   q = q.toLowerCase();
